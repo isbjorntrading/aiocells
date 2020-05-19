@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import aiocells.basic as basic
-import aiocells.mod as mod
+import aiocells
 
 # Demonstrates modification tracking nodes. Nodes only compute if one or
 # more of their dependencies have actually changed as signalled by the
@@ -11,29 +10,29 @@ import aiocells.mod as mod
 
 
 def main():
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
-    clock = mod.Clock()
+    clock = aiocells.ModClock()
 
-    variable_1 = mod.ModVariable(clock)
-    variable_2 = mod.ModVariable(clock)
+    variable_1 = aiocells.ModVariable(clock)
+    variable_2 = aiocells.ModVariable(clock)
 
-    printer_1 = mod.ModPrinter(clock, variable_1,
+    printer_1 = aiocells.ModPrinter(clock, variable_1,
                                "  variable_1 changed to {value}")
-    printer_2 = mod.ModPrinter(clock, variable_2,
+    printer_2 = aiocells.ModPrinter(clock, variable_2,
                                "  variable_2 changed to {value}")
 
     graph.add_precedence(variable_1, printer_1)
     graph.add_precedence(variable_2, printer_2)
 
     print("Nothing has changed:")
-    basic.compute_sequential(graph)
+    aiocells.compute_sequential(graph)
 
     variable_1.value = 1
     variable_2.value = 2
     print("Both variables:")
-    basic.compute_sequential(graph)
+    aiocells.compute_sequential(graph)
 
     variable_1.value = 3
     print("variable_1 only:")
-    basic.compute_sequential(graph)
+    aiocells.compute_sequential(graph)

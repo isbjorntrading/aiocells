@@ -4,8 +4,7 @@ import asyncio
 import functools
 import logging
 
-import aiocells.basic as basic
-import aiocells.aio as aio
+import aiocells
 
 
 logger = logging.getLogger()
@@ -15,23 +14,23 @@ logger = logging.getLogger()
 
 def main():
 
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
-    time = basic.Variable()
+    time = aiocells.Variable()
 
     # 'aio.timer' will put the current time in the 'time' variable when
     # one second has expired
-    timer = functools.partial(aio.timer, 1, time)
-    printer = basic.Printer(time, "  variable changed to {value}")
+    timer = functools.partial(aiocells.timer, 1, time)
+    printer = aiocells.Printer(time, "variable changed to {value}")
 
     graph.add_precedence(timer, time)
     graph.add_precedence(time, printer)
     logger.debug("graph: %s", graph)
 
     logger.info("First computation...")
-    asyncio.run(aio.async_compute_concurrent(graph))
+    asyncio.run(aiocells.async_compute_concurrent(graph))
     logger.debug("graph: %s", graph)
 
     logger.info("Second computation...")
-    asyncio.run(aio.async_compute_concurrent(graph))
+    asyncio.run(aiocells.async_compute_concurrent(graph))
     logger.debug("graph: %s", graph)

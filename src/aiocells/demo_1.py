@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import aiocells.basic as basic
+import aiocells
 
 
 def hello_world():
@@ -8,8 +8,8 @@ def hello_world():
 
 
 def main():
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
     # The node can be any callable, in this case a function.
     graph.add_node(hello_world)
-    basic.compute_sequential(graph)
+    aiocells.compute_sequential(graph)

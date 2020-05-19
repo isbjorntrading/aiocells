@@ -3,8 +3,7 @@
 import asyncio
 from functools import partial
 
-import aiocells.basic as basic
-import aiocells.aio as aio
+import aiocells
 
 # Demonstrates adding nodes to a graph which themselves are graph
 # computations. Importantly, the subgraphs execute concurrently with
@@ -12,16 +11,16 @@ import aiocells.aio as aio
 
 
 async def run_subgraph(name):
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
     sleep_2 = partial(asyncio.sleep, 2)
     graph.add_node(sleep_2)
     print(f"Running subgraph {name}")
-    await aio.async_compute_concurrent(graph)
+    await aiocells.async_compute_concurrent(graph)
 
 
 def create_graph(stopwatch):
 
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
     start_stopwatch = graph.add_node(stopwatch.start)
     stop_stopwatch = graph.add_node(stopwatch.stop)
@@ -36,9 +35,9 @@ def create_graph(stopwatch):
 
 def main():
 
-    stopwatch = basic.Stopwatch()
+    stopwatch = aiocells.Stopwatch()
     graph = create_graph(stopwatch)
 
-    asyncio.run(aio.async_compute_concurrent(graph))
-    print("Computation with aio.async_compute_concurrent took"
+    asyncio.run(aiocells.async_compute_concurrent(graph))
+    print("Computation with async_compute_concurrent took"
           f" {stopwatch.elapsed_time()}")

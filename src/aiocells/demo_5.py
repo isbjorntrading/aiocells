@@ -3,15 +3,14 @@
 import asyncio
 from functools import partial
 
-import aiocells.basic as basic
-import aiocells.aio as aio
+import aiocells
 
 # This example demonstrates graph nodes that are coroutines. We use
 # a different computer; one that know how to deal with coroutines.
 
 
 def main():
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
     # First, we add a lambda function
     before_sleep = graph.add_node(lambda: print("Sleeping..."))
@@ -28,13 +27,13 @@ def main():
     graph.add_precedence(before_sleep, sleep_2)
     graph.add_precedence(sleep_2, wake_up)
 
-    # Here, we use the aio.async_compute_sequential, which, like
-    # basic.compute_sequential, call the nodes in a topologically correct
-    # sequence. However, whereas basic.compute_sequential only supports
-    # vanilla callables, aio.async_compute_sequential supports callables _and_
-    # coroutine function, as defined by `inspect.iscoroutinefunction`. However,
-    # the execution is still sequential. Each coroutine function is executed
-    # using 'await' and must complete before the next node is executed. The
-    # function `aio.async_compute_sequential` is a coroutine and must be
-    # awaited.  Here, we simply pass it to `asyncio.run`.
-    asyncio.run(aio.async_compute_sequential(graph))
+    # Here, we use the `async_compute_sequential`, which, like
+    # `compute_sequential`, call the nodes in a topologically correct sequence.
+    # However, whereas `compute_sequential` only supports vanilla callables,
+    # `async_compute_sequential` additionally supports coroutine functions,
+    # as defined by `inspect.iscoroutinefunction`. However, the execution is
+    # still sequential. Each coroutine function is executed using 'await' and
+    # must complete before the next node is executed. The function
+    # `async_compute_sequential` is a coroutine and must be awaited.  Here,
+    # we simply pass it to `asyncio.run`.
+    asyncio.run(aiocells.async_compute_sequential(graph))

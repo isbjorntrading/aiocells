@@ -4,10 +4,7 @@ import asyncio
 import functools
 import logging
 
-import aiocells.basic as basic
-import aiocells.aio as aio
-import aiocells.mod as mod
-import aiocells.flow as flow
+import aiocells
 
 
 logger = logging.getLogger()
@@ -15,27 +12,27 @@ logger = logging.getLogger()
 
 def main():
 
-    clock = mod.Clock()
-    graph = basic.DependencyGraph()
+    clock = aiocells.ModClock()
+    graph = aiocells.DependencyGraph()
 
     # Here, we simplify the previous demo by using a single variable to
     # store the time and a single printer to announce the modifications
     # when they happen. Because we are using 'compute_flow', the graph
     # is computed when any of the timers go off.
-    time = mod.ModVariable(clock)
-    printer = mod.ModPrinter(clock, time, "time changed to {value}")
+    time = aiocells.ModVariable(clock)
+    printer = aiocells.ModPrinter(clock, time, "time changed to {value}")
     graph.add_precedence(time, printer)
 
     # Set the time after 0 seconds
-    timer_0 = functools.partial(aio.timer, 0, time)
+    timer_0 = functools.partial(aiocells.timer, 0, time)
     graph.add_precedence(timer_0, time)
 
     # Set the time after 1 second
-    timer_1 = functools.partial(aio.timer, 1, time)
+    timer_1 = functools.partial(aiocells.timer, 1, time)
     graph.add_precedence(timer_1, time)
 
     # Set the time after 3 seconds
-    timer_3 = functools.partial(aio.timer, 3, time)
+    timer_3 = functools.partial(aiocells.timer, 3, time)
     graph.add_precedence(timer_3, time)
 
-    asyncio.run(flow.compute_flow(graph))
+    asyncio.run(aiocells.compute_flow(graph))

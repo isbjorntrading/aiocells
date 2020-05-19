@@ -50,11 +50,12 @@ class MultipleTaskExceptions:
 
 
 def raise_task_exceptions(tasks):
-    all_exceptions = [task.exception for task in tasks if
+    all_exceptions = [task.exception() for task in tasks if
                       task.exception() is not None]
     if not all_exceptions:
         return
-    raise Exception(f"There are {len(all_exceptions)} task exceptions")
+    raise Exception(f"There are {len(all_exceptions)} task exceptions.") \
+        from all_exceptions[0]
 
 
 async def async_compute_concurrent_simple(graph):

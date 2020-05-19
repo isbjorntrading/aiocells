@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import aiocells.basic as basic
+import aiocells
 
 
 class HelloWorld:
@@ -10,10 +10,10 @@ class HelloWorld:
 
 
 def main():
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
     # In this example, we add a instance of a callable object rather than
     # a function
     node = graph.add_node(HelloWorld())
 
-    basic.compute_sequential(graph)
+    aiocells.compute_sequential(graph)

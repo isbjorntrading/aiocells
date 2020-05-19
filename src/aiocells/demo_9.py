@@ -3,13 +3,12 @@
 import asyncio
 from functools import partial
 
-import aiocells.basic as basic
-import aiocells.aio as aio
+import aiocells
 
 
 def create_graph(stopwatch):
 
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
     start_stopwatch = stopwatch.start
     stop_stopwatch = stopwatch.stop
@@ -24,17 +23,19 @@ def create_graph(stopwatch):
 
 def main():
 
-    stopwatch = basic.Stopwatch()
+    stopwatch = aiocells.Stopwatch()
     graph = create_graph(stopwatch)
 
     # How long does it take to run 100000 async 1 second sleeps with
     # async_compute_concurrent_simple?
-    asyncio.run(aio.async_compute_concurrent_simple(graph))
-    print("Computation with aio.async_compute_concurrent_simple took"
+    print("Running 100000 async 1 second sleeps with async_compute_concurrent_simple...")
+    asyncio.run(aiocells.async_compute_concurrent_simple(graph))
+    print("Computation with `async_compute_concurrent_simple` took"
           f" {stopwatch.elapsed_time()}")
 
     # How long does it take to run 100000 async 1 second sleeps with
     # async_compute_concurrent?
-    asyncio.run(aio.async_compute_concurrent(graph))
-    print("Computation with aio.async_compute_concurrent took"
+    print("Running 100000 async 1 second sleeps with async_compute_concurrent...")
+    asyncio.run(aiocells.async_compute_concurrent(graph))
+    print("Computation with `async_compute_concurrent` took"
           f" {stopwatch.elapsed_time()}")

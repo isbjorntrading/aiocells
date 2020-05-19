@@ -6,7 +6,7 @@ import aiocells.basic as basic
 import aiocells.aio as aio
 
 
-class Clock:
+class ModClock:
 
     def __init__(self):
         self._now = 0

@@ -2,11 +2,11 @@
 
 import time
 
-import aiocells.basic as basic
+import aiocells
 
 
 def main():
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
     # 'add_node' always returns the node that has just been added, in this
     # case the lambda functions. We will use this below to define precedence
@@ -23,4 +23,4 @@ def main():
     # simplest computer to compute the graph. The nodes will be called in
     # an order that is consistent with the precedence relationships.
     # Specifically, the nodes are executed in topological order.
-    basic.compute_sequential(graph)
+    aiocells.compute_sequential(graph)

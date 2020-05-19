@@ -3,13 +3,12 @@
 import asyncio
 from functools import partial
 
-import aiocells.basic as basic
-import aiocells.aio as aio
+import aiocells
 
 
 def create_graph(stopwatch):
 
-    graph = basic.DependencyGraph()
+    graph = aiocells.DependencyGraph()
 
     # The method to start the stopwatch
     start_stopwatch = stopwatch.start
@@ -38,13 +37,14 @@ def create_graph(stopwatch):
 
 def main():
 
-    stopwatch = basic.Stopwatch()
+    stopwatch = aiocells.Stopwatch()
     graph = create_graph(stopwatch)
     # Even though the graph is a diamond (the sleeps do no depend on each
-    # other and _could_ be executed concurrenty, async_compute_sequential
+    # other and _could_ be executed concurrenty, `async_compute_sequential`
     # does not support concurrent execution. Thus, the execution time is
     # about 3 seconds, the sum of the two sleeps.
-    print("Two async sleeps computed sequentially...")
-    asyncio.run(aio.async_compute_sequential(graph))
-    print("Computation with aio.async_compute_sequential took"
+    print("Two async sleeps computed sequentially.")
+    print("Total time should take about 3 seconds...")
+    asyncio.run(aiocells.async_compute_sequential(graph))
+    print("Computation with `async_compute_sequential` took"
           f" {stopwatch.elapsed_time()}")
