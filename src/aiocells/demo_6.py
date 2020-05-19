@@ -3,7 +3,6 @@
 import asyncio
 from functools import partial
 
-import isbjorn.stable.time as time
 import aiocells.basic as basic
 import aiocells.aio as aio
 
@@ -39,7 +38,7 @@ def create_graph(stopwatch):
 
 def main():
 
-    stopwatch = time.Stopwatch()
+    stopwatch = basic.Stopwatch()
     graph = create_graph(stopwatch)
     # Even though the graph is a diamond (the sleeps do no depend on each
     # other and _could_ be executed concurrenty, async_compute_sequential
