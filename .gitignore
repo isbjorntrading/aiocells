@@ -2,3 +2,5 @@
 activate_aiocells
 *.pyc
 *.egg-info
+.tools
+.tox
