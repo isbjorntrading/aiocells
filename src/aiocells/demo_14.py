@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+
+import asyncio
+import datetime
+import functools
+import logging
+
+import isbjorn.incubator.cells.basic as basic
+import isbjorn.incubator.cells.aio as aio
+
+
+logger = logging.getLogger()
+
+
+# Demonstrates a node where the function is actually a coroutine method.
+# In this case, functools.partial must be used to bind the function and
+# the object.
+
+class TimerObject:
+
+    def __init__(self, result_variable):
+        self.result_variable = result_variable
+
+    async def compute(self):
+        logger.debug("sleeping")
+        await asyncio.sleep(1)
+        logger.debug("woke up")
+        self.result_variable.value = datetime.datetime.now()
+
+
+def main():
+
+    graph = basic.DependencyGraph()
+
+    time = basic.Variable()
+    timer = TimerObject(time)
+
+    # Here, we bind the coroutine method with the object
+    compute_timer = functools.partial(TimerObject.compute, timer)
+    printer = basic.Printer(time, "  variable changed to {value}")
+
+    graph.add_precedence(compute_timer, time)
+    graph.add_precedence(time, printer)
+    logger.debug("graph: %s", graph)
+
+    logger.info("First computation...")
+    asyncio.run(aio.async_compute_concurrent(graph))
+    logger.debug("graph: %s", graph)
+
+    logger.info("Second computation...")
+    asyncio.run(aio.async_compute_concurrent(graph))
+    logger.debug("graph: %s", graph)
