@@ -3,7 +3,7 @@ import aiocells.mod as mod
 
 
 def test_virtual_clock():
-    clock = mod.Clock()
+    clock = mod.ModClock()
     assert clock.now() == 1
     assert clock.current_value == 1
     assert clock.current_value == 1
@@ -16,7 +16,7 @@ def test_virtual_clock():
 
 
 def test_mod_variable():
-    clock = mod.Clock()
+    clock = mod.ModClock()
     variable = mod.ModVariable(clock)
 
     assert clock.current_value == 0
@@ -59,7 +59,7 @@ def test_mod_variable():
 
 
 def test_mod_adder_no_inputs():
-    clock = mod.Clock()
+    clock = mod.ModClock()
 
     output_cell = mod.ModVariable(clock)
 
@@ -74,7 +74,7 @@ def test_mod_adder_no_inputs():
 
 
 def test_mod_adder_one_input():
-    clock = mod.Clock()
+    clock = mod.ModClock()
 
     input_cell = mod.ModVariable(clock)
     output_cell = mod.ModVariable(clock)
@@ -132,7 +132,7 @@ def test_mod_adder_one_input():
 
 
 def test_mod_adder_two_inputs():
-    clock = mod.Clock()
+    clock = mod.ModClock()
 
     input_cell_1 = mod.ModVariable(clock)
     input_cell_2 = mod.ModVariable(clock)
@@ -169,7 +169,7 @@ def test_mod_adder_two_inputs():
 
 def test_mod_adder_two_inputs_with_graph():
 
-    clock = mod.Clock()
+    clock = mod.ModClock()
     graph = basic.DependencyGraph()
 
     input_cell_1 = mod.ModVariable(clock)

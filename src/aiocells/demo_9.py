@@ -28,14 +28,16 @@ def main():
 
     # How long does it take to run 100000 async 1 second sleeps with
     # async_compute_concurrent_simple?
-    print("Running 100000 async 1 second sleeps with async_compute_concurrent_simple...")
+    print("Running 100000 async 1 second sleeps with"
+          " async_compute_concurrent_simple...")
     asyncio.run(aiocells.async_compute_concurrent_simple(graph))
     print("Computation with `async_compute_concurrent_simple` took"
           f" {stopwatch.elapsed_time()}")
 
     # How long does it take to run 100000 async 1 second sleeps with
     # async_compute_concurrent?
-    print("Running 100000 async 1 second sleeps with async_compute_concurrent...")
+    print("Running 100000 async 1 second sleeps with"
+          " async_compute_concurrent...")
     asyncio.run(aiocells.async_compute_concurrent(graph))
     print("Computation with `async_compute_concurrent` took"
           f" {stopwatch.elapsed_time()}")

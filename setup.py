@@ -1,13 +1,24 @@
+import pathlib
+
 from setuptools import setup, find_packages
 
+THIS_DIR = pathlib.Path(__file__).parent
+README = (THIS_DIR / "README.md").read_text()
 
 setup(
     name="aiocells",
     version="0.1.0",
+    description="A package for synchronous and asynchronous"
+                " dependency graph computation",
+    long_description=README,
+    long_description_content_type="text/markdown",
+    url="https://github.com/isbjorntrading/aiocells",
+    author="Anders Lindstrom",
+    author_email="anders@isbjorn.com.au",
+    license="Not Open Source Yet",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     include_package_data=True,
-    license="Not Open Source",
     install_requires=[
         "click==7.0",
     ],

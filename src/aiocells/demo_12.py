@@ -18,9 +18,9 @@ def main():
     variable_2 = aiocells.ModVariable(clock)
 
     printer_1 = aiocells.ModPrinter(clock, variable_1,
-                               "  variable_1 changed to {value}")
+                                    "variable_1 changed to {value}")
     printer_2 = aiocells.ModPrinter(clock, variable_2,
-                               "  variable_2 changed to {value}")
+                                    "variable_2 changed to {value}")
 
     graph.add_precedence(variable_1, printer_1)
     graph.add_precedence(variable_2, printer_2)
