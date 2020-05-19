@@ -1,5 +1,4 @@
-.venv
-.venv_installed
+.config
 activate_aiocells
 *.pyc
 *.egg-info

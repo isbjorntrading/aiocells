@@ -8,13 +8,16 @@ default: test
 #------------------------------------------------------------------------------
 # virtualenv
 
-venv_cmd = . .venv/bin/activate && $1
+python_version := 3.8
+venv_dir := .config/py38
 
-.venv:
+venv_cmd = . ${venv_dir}/bin/activate && $1
+
+${venv_dir}:
 	$(call message,"Creating virtualenv for dev work...")
-	virtualenv -p 3.7 .venv
+	virtualenv -p ${python_version} ${venv_dir}
 
-.venv_installed: dev_requirements.txt .venv setup.py
+.config/venv_installed: dev_requirements.txt ${venv_dir} setup.py
 	$(call message,"Upgrading pip $<")
 	$(call venv_cmd, pip install --upgrade pip)
 
@@ -24,9 +27,10 @@ venv_cmd = . .venv/bin/activate && $1
 	$(call message,"Installing package in --editable mode")
 	$(call venv_cmd, pip install --editable .)
 
+	mkdir -p ${@D}
 	touch $@
 
-activate_aiocells: .venv_installed
+activate_aiocells: .config/venv_installed
 	$(call message,"Generating $@ script")
 	scripts/generate_activate_aiocells.sh
 
@@ -35,7 +39,8 @@ venv: activate_aiocells
 
 .PHONY: nuke
 nuke:
-	-rm -rf .venv
+	-rm -rf .config
+	-rm -f activate_aiocells
 
 .PHONY: test
 test: | venv

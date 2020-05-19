@@ -3,7 +3,6 @@
 import asyncio
 from functools import partial
 
-import isbjorn.stable.time as time
 import aiocells.basic as basic
 import aiocells.aio as aio
 
@@ -37,7 +36,7 @@ def create_graph(stopwatch):
 
 def main():
 
-    stopwatch = time.Stopwatch()
+    stopwatch = basic.Stopwatch()
     graph = create_graph(stopwatch)
 
     asyncio.run(aio.async_compute_concurrent(graph))

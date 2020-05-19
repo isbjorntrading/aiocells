@@ -2,13 +2,13 @@
 
 import asyncio
 
-import isbjorn.stable.time as time
+import aiocells.basic as basic
 import aiocells.aio as aio
 import aiocells.demo_6 as demo_6
 
 
 def main():
-    stopwatch = time.Stopwatch()
+    stopwatch = basic.Stopwatch()
     graph = demo_6.create_graph(stopwatch)
 
     # Here, we run the same graph as the previous demo but we use

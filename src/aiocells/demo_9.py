@@ -3,7 +3,6 @@
 import asyncio
 from functools import partial
 
-import isbjorn.stable.time as time
 import aiocells.basic as basic
 import aiocells.aio as aio
 
@@ -25,7 +24,7 @@ def create_graph(stopwatch):
 
 def main():
 
-    stopwatch = time.Stopwatch()
+    stopwatch = basic.Stopwatch()
     graph = create_graph(stopwatch)
 
     # How long does it take to run 100000 async 1 second sleeps with

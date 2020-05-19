@@ -3,7 +3,6 @@
 import asyncio
 import time
 
-from isbjorn.stable.time import Stopwatch
 import aiocells.basic as basic
 import aiocells.aio as aio
 
@@ -33,7 +32,7 @@ def create_graph(stopwatch):
 
 def main():
 
-    stopwatch = Stopwatch()
+    stopwatch = basic.Stopwatch()
     graph = create_graph(stopwatch)
 
     print("Should take about 3 seconds")
