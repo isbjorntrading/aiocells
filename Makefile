@@ -2,7 +2,8 @@
 # Function for making text appear in bold sky blue
 message = @echo "\033[1;38;5:123m$1\033[0m"
 
-default: | venv
+.PHONY: default
+default: test
 
 #------------------------------------------------------------------------------
 # virtualenv
@@ -27,7 +28,7 @@ venv_cmd = . .venv/bin/activate && $1
 
 activate_aiocells: .venv_installed
 	$(call message,"Generating $@ script")
-	scripts/generate_activate_aiocells
+	scripts/generate_activate_aiocells.sh
 
 .PHONY: venv
 venv: activate_aiocells
@@ -35,3 +36,8 @@ venv: activate_aiocells
 .PHONY: nuke
 nuke:
 	-rm -rf .venv
+
+.PHONY: test
+test: | venv
+	$(call message,"Running tests...")
+	$(call venv_cmd, scripts/test.sh)

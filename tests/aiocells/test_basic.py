@@ -1,7 +1,7 @@
 import operator
 import pytest
 
-import isbjorn.incubator.cells.basic as basic
+import aiocells.basic as basic
 
 
 def test_dict():
@@ -72,7 +72,7 @@ def test_is_value():
     variable = basic.Variable(value=1)
     assert basic.is_value(variable)
 
-# # =============================================================================
+# =============================================================================
 # # Test 'assign'
 # def test_assignment():
 #     input_1 = basic.Variable(value=1)

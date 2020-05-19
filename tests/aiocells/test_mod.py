@@ -1,5 +1,5 @@
-import isbjorn.incubator.cells.basic as basic
-import isbjorn.incubator.cells.mod as mod
+import aiocells.basic as basic
+import aiocells.mod as mod
 
 
 def test_virtual_clock():
