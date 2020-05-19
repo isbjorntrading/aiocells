@@ -32,7 +32,7 @@ ${venv_dir}:
 
 activate_aiocells: .config/venv_installed
 	$(call message,"Generating $@ script")
-	scripts/generate_activate_aiocells.sh
+	scripts/generate_activate_aiocells.sh ${venv_dir}
 
 .PHONY: venv
 venv: activate_aiocells
