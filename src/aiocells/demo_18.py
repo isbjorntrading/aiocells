@@ -4,10 +4,10 @@ import asyncio
 import functools
 import logging
 
-import isbjorn.incubator.cells.basic as basic
-import isbjorn.incubator.cells.aio as aio
-import isbjorn.incubator.cells.mod as mod
-import isbjorn.incubator.cells.flow as flow
+import aiocells.basic as basic
+import aiocells.aio as aio
+import aiocells.mod as mod
+import aiocells.flow as flow
 
 
 logger = logging.getLogger()

@@ -1,7 +1,7 @@
 import asyncio
 import inspect
 
-import isbjorn.incubator.cells.aio as aio
+import aiocells.aio as aio
 
 REPEATER = "cells.flow.repeater"
 

@@ -4,8 +4,8 @@ import asyncio
 import time
 
 from isbjorn.stable.time import Stopwatch
-import isbjorn.incubator.cells.basic as basic
-import isbjorn.incubator.cells.aio as aio
+import aiocells.basic as basic
+import aiocells.aio as aio
 
 
 def create_graph(stopwatch):

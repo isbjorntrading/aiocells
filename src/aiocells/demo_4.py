@@ -2,7 +2,7 @@
 
 import time
 
-import isbjorn.incubator.cells.basic as basic
+import aiocells.basic as basic
 
 
 def main():

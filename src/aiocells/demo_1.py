@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import isbjorn.incubator.cells.basic as basic
+import aiocells.basic as basic
 
 
 def hello_world():

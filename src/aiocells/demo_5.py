@@ -3,8 +3,8 @@
 import asyncio
 from functools import partial
 
-import isbjorn.incubator.cells.basic as basic
-import isbjorn.incubator.cells.aio as aio
+import aiocells.basic as basic
+import aiocells.aio as aio
 
 # This example demonstrates graph nodes that are coroutines. We use
 # a different computer; one that know how to deal with coroutines.

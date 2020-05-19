@@ -4,8 +4,8 @@ import asyncio
 from functools import partial
 
 import isbjorn.stable.time as time
-import isbjorn.incubator.cells.basic as basic
-import isbjorn.incubator.cells.aio as aio
+import aiocells.basic as basic
+import aiocells.aio as aio
 
 # Demonstrates adding nodes to a graph which themselves are graph
 # computations. Importantly, the subgraphs execute concurrently with

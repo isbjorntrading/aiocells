@@ -3,8 +3,8 @@
 import asyncio
 
 import isbjorn.stable.time as time
-import isbjorn.incubator.cells.aio as aio
-import isbjorn.incubator.cells.demo_6 as demo_6
+import aiocells.aio as aio
+import aiocells.demo_6 as demo_6
 
 
 def main():

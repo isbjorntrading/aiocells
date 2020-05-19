@@ -4,12 +4,34 @@ message = @echo "\033[1;38;5:123m$1\033[0m"
 
 default: | venv
 
-.venv_initialised:
-	scripts/init_venv
+#------------------------------------------------------------------------------
+# virtualenv
+
+venv_cmd = . .venv/bin/activate && $1
+
+.venv:
+	$(call message,"Creating virtualenv for dev work...")
+	virtualenv -p 3.7 .venv
+
+.venv_installed: dev_requirements.txt .venv setup.py
+	$(call message,"Upgrading pip $<")
+	$(call venv_cmd, pip install --upgrade pip)
+
+	$(call message,"Installing $<")
+	$(call venv_cmd, pip install -r $<)
+
+	$(call message,"Installing package in --editable mode")
+	$(call venv_cmd, pip install --editable .)
+
+	touch $@
+
+activate_aiocells: .venv_installed
+	$(call message,"Generating $@ script")
+	scripts/generate_activate_aiocells
 
 .PHONY: venv
-venv: .venv_initialised
+venv: activate_aiocells
 
 .PHONY: nuke
 nuke:
-	-rm -f .venv_initialised
+	-rm -rf .venv

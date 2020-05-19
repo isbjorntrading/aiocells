@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import isbjorn.incubator.cells.basic as basic
-import isbjorn.incubator.cells.mod as mod
+import aiocells.basic as basic
+import aiocells.mod as mod
 
 # Demonstrates modification tracking nodes. Nodes only compute if one or
 # more of their dependencies have actually changed as signalled by the
