@@ -4,3 +4,5 @@ activate_aiocells
 *.egg-info
 .tools
 .tox
+build
+dist
