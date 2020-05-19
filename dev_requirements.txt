@@ -1,0 +1,7 @@
+# These are tools that are required for development using the virtualenv
+# It should _not_ include package dependencies that are already listed
+# in setup.py
+
+pytest>=5.4.1
+tox>=3.14.6
+pycodestyle>=2.5.0

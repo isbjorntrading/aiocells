@@ -1,0 +1,4 @@
+.venv
+.venv_initialised
+activate_aiocells
+*.pyc
