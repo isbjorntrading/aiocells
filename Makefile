@@ -53,7 +53,7 @@ test: | venv
 dist_dir := .config/dist
 
 .PHONY: dist
-dist: #tox
+dist: tox
 	$(call message,"Building distributions...")
 	$(call venv_cmd, python setup.py sdist bdist_wheel)
 
@@ -74,3 +74,10 @@ ${tox_initialised}: tox.ini | venv
 	$(call message,"Building tox environment...")
 	$(call venv_cmd, tox -r --notest)
 	touch $@
+
+#------------------------------------------------------------------------------
+# pypi
+.PHONY: upload
+upload: dist | venv
+	twine upload dist/*
+
