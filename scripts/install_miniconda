@@ -3,6 +3,19 @@
 set -e
 set -u
 
+location=~/miniconda3
+
+usage() {
+    echo usage: $(basename $0) "[-d <installation location>]"
+}
+
+while [ $# != 0 ]; do
+    case $1 in
+    -d) location=$2; shift 2;;
+    *) usage; exit 1;;
+    esac
+done
+
 installer_script=miniconda.sh.$$
 
 clean_up() {
@@ -17,10 +30,10 @@ echo Downloading installer...
 curl ${installer_url} > ${installer_script}
 
 echo Installing miniconda...
-bash ${installer_script} -b
+bash ${installer_script} -b -p ~/miniconda3
 
 echo Updating conda...
-conda update -n base -c defaults conda
+~/miniconda3/bin/conda update -n base -c defaults conda
 
 echo Installing Python 3.8...
-conda install -c anaconda python=3.8
+~/miniconda3/bin/conda install -c anaconda python=3.8
