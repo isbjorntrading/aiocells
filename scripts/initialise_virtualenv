@@ -23,7 +23,11 @@ log_message Installing virtual environment with \
     python_version=${python_version} and destination=${destination}
 
 if ! which python3.8; then
-    log_error python3.8 not found. Is it installed?
+    log_error python3.8 not found. Is it installed? The following script
+    log_error can be used to install it with miniconda:
+    log_error
+    log_error "  scripts/install_miniconda"
+    log_error
     exit 1
 fi
 

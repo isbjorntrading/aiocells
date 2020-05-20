@@ -1,6 +1,11 @@
 `aiocells` is a package that provides tools for synchronous and asynchronous
 execution of nodes in a dependency graph.
 
+Contents:
+
+  1. [Examples](#examples)
+  1. [Development Installation](#development-installation)
+
 ## Examples
 
 ### Hello world
@@ -200,3 +205,49 @@ def main():
 ```
 
 ## Development Installation
+
+There is a `Makefile` in the repository. The default target will initialise
+a virtual environment, install dependencies into that environment and then
+test the code. It requires `Python 3.8`, `virtualenv` and `pip` to be
+installed. If those are missing, it will print suggestions on how to address
+the problem.
+
+```bash
+$ make
+```
+
+### Activating the virtual environment and running the demos
+
+The default make target will generate a file called `activate_aiocells`. To
+activate the virtual environment:
+
+```bash
+$ source activate_aiocells
+```
+
+Once you've done that, you should have the following command available:
+
+```bash
+$ aiocells demo-1
+```
+
+### Tab completion
+
+`activate_aiocells` will enable tab completion for `aiocells`:
+
+```bash
+$ aiocells <TAB>
+```
+
+### Editable installation
+
+The package will be installed in the virutal environment using
+`pip --editable`. This means that modifications to the code will be immediately
+available.
+
+To test this, try modifying `src/aiocells/demo_1.py` to print a different
+message. You should be able to immediately run the demo and see the new
+message:
+```bash
+$ aiocells demo-1
+```
