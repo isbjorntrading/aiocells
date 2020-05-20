@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+set -u
+
+installer_script=miniconda.sh.$$
+
+clean_up() {
+    rm -f ${installer_script}
+}
+
+trap clean_up EXIT
+
+installer_url=https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+echo Downloading installer...
+curl ${installer_url} > ${installer_script}
+
+echo Installing miniconda...
+bash ${installer_script} -b
+
+echo Updating conda...
+conda update -n base -c defaults conda
+
+echo Installing Python 3.8...
+conda install -c anaconda python=3.8

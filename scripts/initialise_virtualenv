@@ -27,12 +27,8 @@ if ! which python3.8; then
     exit 1
 fi
 
-if ! which pip; then
+if ! python3.8 -m pip >/dev/null 2&1; then
     log_error pip not found. Is it installed?
-    log_error It can be installed with the following command:
-    log_error
-    log_error "  $ sudo apt-get install -y python3-pip"
-    log_error
     exit 1
 fi
 
