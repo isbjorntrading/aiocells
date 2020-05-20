@@ -13,26 +13,13 @@ venv_dir := .tools/py38
 
 venv_cmd = . ${venv_dir}/bin/activate && $1
 
-${venv_dir}:
-	$(call message,"Creating virtualenv for dev work...")
-	virtualenv -p ${python_version} ${venv_dir}
-
-.tools/venv_installed: dev_requirements.txt ${venv_dir} setup.py
-	$(call message,"Upgrading packaging tools $<")
-	$(call venv_cmd, pip install --upgrade pip setuptools wheel)
-
-	$(call message,"Installing $<")
-	$(call venv_cmd, pip install -r $<)
-
-	$(call message,"Installing package in --editable mode")
-	$(call venv_cmd, pip install --editable .)
-
-	mkdir -p ${@D}
+.tools/venv_initialised: dev_requirements.txt setup.py
+	scripts/initialise_virtualenv ${python_version} ${venv_dir}
 	touch $@
 
-activate_aiocells: .tools/venv_installed
+activate_aiocells: .tools/venv_initialised
 	$(call message,"Generating $@ script")
-	scripts/generate_activate_aiocells.sh ${venv_dir}
+	scripts/generate_activate_aiocells ${venv_dir}
 
 .PHONY: venv
 venv: activate_aiocells
@@ -45,7 +32,7 @@ nuke:
 .PHONY: test
 test: | venv
 	$(call message,"Running tests...")
-	$(call venv_cmd, scripts/test.sh)
+	$(call venv_cmd, scripts/run_tests)
 
 #------------------------------------------------------------------------------
 # distribution

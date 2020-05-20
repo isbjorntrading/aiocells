@@ -1,0 +1,72 @@
+#!/bin/sh
+
+set -e
+set -u
+
+if [ $# != 2 ]; then
+    echo usage $(basename $0) "<python version> <destination>"
+    exit 1
+fi
+
+log_message() {
+   echo "\033[1;38;5:123m$*\033[0m"
+}
+
+log_error() {
+   echo "\033[1;91m$*\033[0m"
+}
+
+python_version=$1
+destination=$2
+
+log_message Installing virtual environment with \
+    python_version=${python_version} and destination=${destination}
+
+if ! which virtualenv; then
+    log_error virtualenv not found. Is it installed?
+    log_error It can be installed with the following command:
+    log_error
+    log_error   $ pip install --user virtualenv
+    log_error
+    log_error 1
+fi
+which_virtualenv=$(which virtualenv)
+
+old_virtual_env_error() {
+    log_error virtualenv must be at least version 20. It is $(virtualenv --version)
+    log_error
+    log_error It can be installed with the following command:
+    log_error
+    log_error   $ pip install --user virtualenv
+    log_error
+    log_error The directory ~/.local/bin must be in your PATH for this work. You
+    log_error may have to kill the current shell also in case the path to the
+    log_error old version has been cached.
+    exit 1
+}
+
+# We're expecting a version format of 'virtualenv A.B.C from ....'
+# Older versions do not have this format.
+if ! $(virtualenv --version | grep -q '^virtualenv'); then
+    old_virtual_env_error
+fi
+
+# Extract the major version
+virtual_env_major_version=$(virtualenv --version  | awk '{print $2}' | awk -F. '{print $1}')
+
+if [ "${virtual_env_major_version}" -lt 20 ]; then
+    old_virtual_env_error
+fi
+
+virtualenv -p ${python_version} ${destination}
+
+. ${destination}/bin/activate
+
+log_message Upgrading pip, setuptools and wheel
+pip install --upgrade pip setuptools wheel
+
+log_message Installing dev_requirements.txt
+pip install -r dev_requirements.txt
+
+log_message Installing package in 'editable' mode for dev
+pip install --editable .
