@@ -66,5 +66,5 @@ ${tox_initialised}: tox.ini | venv
 # pypi
 .PHONY: upload
 upload: dist | venv
-	twine upload dist/*
+	$(call venv_cmd, twine upload dist/*)
 
