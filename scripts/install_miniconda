@@ -33,7 +33,14 @@ echo Installing miniconda...
 bash ${installer_script} -b -p ~/miniconda3
 
 echo Updating conda...
-~/miniconda3/bin/conda update --yes -n base -c defaults conda
+${location}/bin/conda update --yes -n base -c defaults conda
 
 echo Installing Python 3.8...
-~/miniconda3/bin/conda install --yes -c anaconda python=3.8
+${location}/bin/conda install --yes -c anaconda python=3.8
+
+cat<<EOF
+Miniconda has been installed. Please updating your PATH if required:
+
+    export PATH=${location}/bin:$PATH
+
+EOF
