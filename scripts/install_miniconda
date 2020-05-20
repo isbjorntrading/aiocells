@@ -5,38 +5,39 @@ set -u
 
 location=~/miniconda3
 
-#usage() {
-#    echo usage: $(basename $0) "[-d <installation location>]"
-#}
+usage() {
+    echo usage: $(basename $0) "[-d <installation location>]"
+}
 
-#while [ $# != 0 ]; do
-#    case $1 in
-#    -d) location=$2; shift 2;;
-#    *) usage; exit 1;;
-#    esac
-#done
+while [ $# != 0 ]; do
+    case $1 in
+    -d) location=$2; shift 2;;
+    -h) usage: exit 0;;
+    *) usage; exit 1;;
+    esac
+done
 
-#installer_script=miniconda.sh.$$
+installer_script=miniconda.sh.$$
 
-#clean_up() {
-#    rm -f ${installer_script}
-#}
+clean_up() {
+    rm -f ${installer_script}
+}
 
-#trap clean_up EXIT
+trap clean_up EXIT
 
-#installer_url=https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+installer_url=https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
-#echo Downloading installer...
-#curl ${installer_url} > ${installer_script}
+echo Downloading installer...
+curl ${installer_url} > ${installer_script}
 
-#echo Installing miniconda...
-#bash ${installer_script} -b -p ~/miniconda3
+echo Installing miniconda...
+bash ${installer_script} -b -p ~/miniconda3
 
-#echo Updating conda...
-#${location}/bin/conda update --yes -n base -c defaults conda
+echo Updating conda...
+${location}/bin/conda update --yes -n base -c defaults conda
 
-#echo Installing Python 3.8...
-#${location}/bin/conda install --yes -c anaconda python=3.8
+echo Installing Python 3.8...
+${location}/bin/conda install --yes -c anaconda python=3.8
 
 cat<<EOF
 
