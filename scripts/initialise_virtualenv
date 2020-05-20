@@ -27,7 +27,7 @@ if ! which python3.8; then
     exit 1
 fi
 
-if ! python3.8 -m pip >/dev/null 2&1; then
+if ! python3.8 -m pip >/dev/null 2>&1; then
     log_error pip not found. Is it installed?
     exit 1
 fi
