@@ -35,5 +35,5 @@ def main():
     # How long does it take to compute 100000 null callables with
     # async_compute_concurrent?
     asyncio.run(aiocells.async_compute_concurrent(graph))
-    print("Computation with async_compute_concurrent_2 took"
+    print("Computation with async_compute_concurrent took"
           f" {stopwatch.elapsed_time()}")
