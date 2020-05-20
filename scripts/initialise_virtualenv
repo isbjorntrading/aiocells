@@ -26,9 +26,9 @@ if ! which virtualenv; then
     log_error virtualenv not found. Is it installed?
     log_error It can be installed with the following command:
     log_error
-    log_error   $ pip install --user virtualenv
+    log_error "  $ pip install --user virtualenv"
     log_error
-    log_error 1
+    exit 1
 fi
 which_virtualenv=$(which virtualenv)
 
@@ -37,7 +37,7 @@ old_virtual_env_error() {
     log_error
     log_error It can be installed with the following command:
     log_error
-    log_error   $ pip install --user virtualenv
+    log_error "  $ pip install --user virtualenv"
     log_error
     log_error The directory ~/.local/bin must be in your PATH for this work. You
     log_error may have to kill the current shell also in case the path to the
