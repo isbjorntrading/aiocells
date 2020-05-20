@@ -41,6 +41,7 @@ dist_dir := .config/dist
 
 .PHONY: dist
 dist: tox
+	-rm -rf dist build
 	$(call message,"Building distributions...")
 	$(call venv_cmd, python setup.py sdist bdist_wheel)
 
@@ -67,4 +68,3 @@ ${tox_initialised}: tox.ini | venv
 .PHONY: upload
 upload: dist | venv
 	$(call venv_cmd, twine upload dist/*)
-
