@@ -39,6 +39,7 @@ location=~/miniconda3
 #${location}/bin/conda install --yes -c anaconda python=3.8
 
 cat<<EOF
+
 Miniconda has been installed to ${location}. The tools are in ${location}/bin.
 Please updating your PATH if required. For example:
 
