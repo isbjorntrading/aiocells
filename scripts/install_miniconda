@@ -41,6 +41,6 @@ ${location}/bin/conda install --yes -c anaconda python=3.8
 cat<<EOF
 Miniconda has been installed. Please updating your PATH if required:
 
-    export PATH=${location}/bin:$PATH
+    export PATH=${location}/bin:'$PATH'
 
 EOF
