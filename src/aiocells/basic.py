@@ -136,7 +136,16 @@ def arg_getter(arg):
         def sequence_getter():
             return [g() for g in getters]
         return sequence_getter
-    raise Exception("Don't know what to do")
+
+    if isinstance(arg, collections.abc.Mapping):
+        raise Exception("Don't know what to do with arg of type {type(arg)}")
+
+    # Arg is neither an object with a "value" attribute and nor is it a
+    # sequence or a map. In this case, we consider the value to be a literal.
+    # We generate a function that simply returns the value as is
+    def literal_getter():
+        return arg
+    return literal_getter
 
 
 def assign(destination, function, *arguments):

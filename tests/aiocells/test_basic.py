@@ -102,8 +102,17 @@ def test_cell_setter_and_getter():
 # ===========================================================================
 # Test 'assign'
 
+# Here, the arguments passed to the 'add' operator are literal values
+def test_assignment_literal_args():
+    output = basic.Variable()
+
+    assignment = basic.assign(output, operator.add, 1, 2)
+    assignment()
+    assert output.value == 3
+
+
 # Here, the arguments passed to the 'add' operator are basic.Variable
-def test_assignment_1():
+def test_assignment_variable_args():
     input_1 = basic.Variable(value=1)
     input_2 = basic.Variable(value=2)
     output = basic.Variable()
@@ -120,7 +129,7 @@ def test_assignment_1():
 # Here, the argument pass to to the 'sum' function is a list of
 # basic.Variable. The values of these variables are gotten every time
 # the assignment is invoked.
-def test_assignment_2():
+def test_assignment_sequence_arg():
     input_1 = basic.Variable(value=1)
     input_2 = basic.Variable(value=2)
     input_3 = basic.Variable(value=3)
@@ -131,6 +140,22 @@ def test_assignment_2():
     assert output.value == 6
 
     input_3.value = 4
+    assignment()
+    assert output.value == 7
+
+
+def test_assignment_mixed_args():
+    input_1 = basic.Variable(value=1)
+    input_2 = basic.Variable(value=2)
+    output = basic.Variable()
+
+    # Here, we test all three types of args, a list, variables and
+    # literals
+    assignment = basic.assign(output, sum, [input_1, input_2, 3])
+    assignment()
+    assert output.value == 6
+
+    input_2.value = 3
     assignment()
     assert output.value == 7
 
