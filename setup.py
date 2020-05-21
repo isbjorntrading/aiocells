@@ -7,7 +7,7 @@ README = (THIS_DIR / "README.md").read_text()
 
 setup(
     name="aiocells",
-    version="0.1.4",
+    version="0.1.5",
     python_requires=">=3.8",
     description="A package for synchronous and asynchronous"
                 " dependency graph computation",
@@ -21,7 +21,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     install_requires=[
-        "click==7.0",
+        "click>=7.0",
     ],
     entry_points={
         "console_scripts": [
