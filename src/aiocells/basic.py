@@ -115,18 +115,6 @@ class Printer:
         print(self.message.format(value=self.input_cell.value))
 
 
-class Adder:
-
-    def __init__(self, input_cells, output_cell):
-        self.output_cell = output_cell
-        self.input_cells = input_cells
-
-    def __call__(self):
-        if len(self.input_cells) == 0:
-            return
-        self.output_cell.value = sum(cell.value for cell in self.input_cells)
-
-
 def arg_getter(arg):
 
     # If the arg is an object with a "value" attribute, we return a function

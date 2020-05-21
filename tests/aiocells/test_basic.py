@@ -98,41 +98,8 @@ def test_cell_setter_and_getter():
     cell_2.value = -1
     assert cell_2.value == -1
 
-# =============================================================================
-# Test Add formula
 
-
-def test_add_no_inputs():
-    output_cell = basic.Variable()
-
-    add = basic.Adder([], output_cell)
-    add()
-
-    assert output_cell.value is None
-
-
-def test_add_single_input():
-    input_cell = basic.Variable(value=1)
-    output_cell = basic.Variable()
-
-    add = basic.Adder([input_cell], output_cell)
-    add()
-
-    assert output_cell.value == 1
-
-
-def test_add_two_inputs():
-    input_cell_1 = basic.Variable(value=1)
-    input_cell_2 = basic.Variable(value=2)
-    output_cell = basic.Variable()
-
-    add = basic.Adder([input_cell_1, input_cell_2], output_cell)
-    add()
-
-    assert output_cell.value == 3
-
-
-# =============================================================================
+# ===========================================================================
 # Test 'assign'
 
 # Here, the arguments passed to the 'add' operator are basic.Variable
@@ -167,7 +134,7 @@ def test_assignment_2():
     assignment()
     assert output.value == 7
 
-# =============================================================================
+# ===========================================================================
 # Test topological sorting
 
 
@@ -243,7 +210,7 @@ def test_topological_sort_DAG():
     assert is_before("F", "H", ordering)
 
 
-# =============================================================================
+# ===========================================================================
 # Test graph construction
 
 
@@ -313,7 +280,7 @@ def test_two_input_nodes():
     assert graph.input_nodes == {"A", "B"}
 
 
-# =============================================================================
+# ===========================================================================
 # Test graph decoration
 
 # We use this IdNode class so that equality is done on object identity
@@ -395,7 +362,7 @@ def test_decorated_diamond():
     assert undecorated_graph.dependency_dict == graph.dependency_dict
 
 
-# =============================================================================
+# ===========================================================================
 # Test topological queue
 
 
@@ -522,7 +489,7 @@ def test_single_dependency():
 
     input_cell = basic.Variable(name="input_cell", value=99)
     output_cell = basic.Variable(name="output_cell")
-    add = basic.Adder([input_cell], output_cell)
+    add = basic.assign(output_cell, sum, [input_cell])
 
     graph = basic.DependencyGraph()
     basic.compute_sequential(graph)
@@ -546,7 +513,7 @@ def test_add_precedence():
 
     input_cell = basic.Variable(name="input_cell", value=99)
     output_cell = basic.Variable(name="output_cell")
-    add = basic.Adder([input_cell], output_cell)
+    add = basic.assign(output_cell, sum, [input_cell])
 
     graph = basic.DependencyGraph()
     basic.compute_sequential(graph)
@@ -567,8 +534,6 @@ def test_add_precedence():
 # CellWrapper is for instrumenting cells so that the computation order
 # can be recorded. This is used to ensure that the evaluation order is
 # correct.
-
-
 class CellWrapper:
 
     def __init__(self, real_cell, compute_list):
@@ -588,10 +553,10 @@ def test_two_dependencies():
     child_cell_2 = basic.Variable(name="child_cell_2")
     output_cell = basic.Variable(name="output_cell")
 
-    add_1 = basic.Adder([input_cell_1, input_cell_2], child_cell_1)
-    add_2 = basic.Adder([input_cell_1, input_cell_2], child_cell_2)
+    add_1 = basic.assign(child_cell_1, sum, [input_cell_1, input_cell_2])
+    add_2 = basic.assign(child_cell_2, sum, [input_cell_1, input_cell_2])
 
-    add_3 = basic.Adder([child_cell_1, child_cell_2], output_cell)
+    add_3 = basic.assign(output_cell, sum, [child_cell_1, child_cell_2])
 
     graph = basic.DependencyGraph()
 
