@@ -2,6 +2,7 @@ import collections
 import copy
 import datetime
 import enum
+import functools
 import logging
 
 
@@ -104,10 +105,6 @@ class Variable:
         return self.name
 
 
-def is_value(instance):
-    return hasattr(instance, "value")
-
-
 class Printer:
 
     def __init__(self, input_cell, message):
@@ -130,21 +127,36 @@ class Adder:
         self.output_cell.value = sum(cell.value for cell in self.input_cells)
 
 
-def arg_getter(source):
-    if is_value(source):
-        return functools.partial(source.value)
-    # if isinstance(source, collections.Sequence):
-    #     def sequence_getter():
-    #         return type(source)(
-    #     return
+def arg_getter(arg):
+
+    # If the arg is an object with a "value" attribute, we return a function
+    # that will return the value when called.
+    if hasattr(arg, "value"):
+        def value_getter():
+            return arg.value
+        return value_getter
+
+    # If the arg is a sequence, we first generate a list of getters for
+    # the elements of the list. When then return a function that invokes
+    # those getters when it is invoked.
+    if isinstance(arg, collections.abc.Sequence):
+        # Here's the list of getters for the sequence elements
+        getters = [arg_getter(x) for x in arg]
+
+        # Here's the function that will invoke those getters when it is
+        # invoked
+        def sequence_getter():
+            return [g() for g in getters]
+        return sequence_getter
+    raise Exception("Don't know what to do")
 
 
 def assign(destination, function, *arguments):
-    getters = (arg_getter(argument) for argument in arguments)
+    getters = [arg_getter(argument) for argument in arguments]
 
     def _assign():
-        args = (getter() for getter in getters)
-        destination.value = sum(*args)
+        args = [getter() for getter in getters]
+        destination.value = function(*args)
     return _assign
 
 

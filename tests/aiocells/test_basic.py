@@ -1,4 +1,5 @@
 
+import inspect
 import operator
 import pytest
 
@@ -132,23 +133,39 @@ def test_add_two_inputs():
 
 
 # =============================================================================
-# Test is_value
-def test_is_value():
-    variable = basic.Variable(value=1)
-    assert basic.is_value(variable)
+# Test 'assign'
 
-# =============================================================================
-# # Test 'assign'
-# def test_assignment():
-#     input_1 = basic.Variable(value=1)
-#     input_2 = basic.Variable(value=2)
-#     output = basic.Variable()
+# Here, the arguments passed to the 'add' operator are basic.Variable
+def test_assignment_1():
+    input_1 = basic.Variable(value=1)
+    input_2 = basic.Variable(value=2)
+    output = basic.Variable()
 
-#     assignment = basic.assign(output_cell, operator.add, input_1, input_2)
-#     assignment()
+    assignment = basic.assign(output, operator.add, input_1, input_2)
+    assignment()
+    assert output.value == 3
 
-#     assert output_cell.value == 3
+    input_2.value = 3
+    assignment()
+    assert output.value == 4
 
+
+# Here, the argument pass to to the 'sum' function is a list of
+# basic.Variable. The values of these variables are gotten every time
+# the assignment is invoked.
+def test_assignment_2():
+    input_1 = basic.Variable(value=1)
+    input_2 = basic.Variable(value=2)
+    input_3 = basic.Variable(value=3)
+    output = basic.Variable()
+
+    assignment = basic.assign(output, sum, [input_1, input_2, input_3])
+    assignment()
+    assert output.value == 6
+
+    input_3.value = 4
+    assignment()
+    assert output.value == 7
 
 # =============================================================================
 # Test topological sorting
