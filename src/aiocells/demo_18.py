@@ -16,7 +16,7 @@ def main():
     graph = aiocells.DependencyGraph()
 
     time = aiocells.ModVariable(clock)
-    printer = aiocells.ModPrinter(clock, time, "variable_1 changed to {value}")
+    printer = aiocells.ModPrinter(clock, time, "time changed to {value}")
     graph.add_precedence(time, printer)
 
     timer_0 = functools.partial(aiocells.timer, 0, time)

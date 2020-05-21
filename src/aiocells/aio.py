@@ -103,7 +103,8 @@ def prepare_ready_set(ready_set):
         elif callable(f):
             callables.add(f)
         else:
-            assert False, "'f' is neither a callable nor a coro_function"
+            raise ValueError(f"Node is neither a callable nor a"
+                             " coro_function: {f}")
     return callables, tasks
 
 

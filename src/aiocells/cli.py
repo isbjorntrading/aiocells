@@ -17,6 +17,7 @@ import aiocells.demo_15
 import aiocells.demo_16
 import aiocells.demo_17
 import aiocells.demo_18
+import aiocells.demo_19
 
 
 @click.group()
@@ -112,3 +113,8 @@ def demo_17():
 @main.command()
 def demo_18():
     aiocells.demo_18.main()
+
+
+@main.command()
+def demo_19():
+    aiocells.demo_19.main()
