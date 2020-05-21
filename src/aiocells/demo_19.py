@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-import aiocells
 import asyncio
 import functools
+
+import aiocells
 
 
 def subgraph(name, period):
