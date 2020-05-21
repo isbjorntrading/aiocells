@@ -1,6 +1,6 @@
 
 from .basic import DependencyGraph, Variable, compute_sequential, Stopwatch, \
-        Printer
+        Printer, assign
 
 from .aio import async_compute_sequential, async_compute_concurrent, \
         async_compute_concurrent_simple, timer
