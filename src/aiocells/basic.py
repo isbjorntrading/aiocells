@@ -3,6 +3,7 @@ import copy
 import datetime
 import enum
 import functools
+import inspect
 import logging
 
 
@@ -85,7 +86,6 @@ class Variable:
     def __init__(self, *, value=None, name=None):
         self.name = name
         self._value = value
-        self._logger = logging.getLogger("Variable")
 
     @property
     def value(self):
@@ -96,8 +96,7 @@ class Variable:
         self._value = value
 
     def __call__(self):
-        self._logger.debug("called")
-        # pass
+        pass
 
     def __str__(self):
         if self.name is None:
@@ -149,12 +148,31 @@ def arg_getter(arg):
 
 
 def assign(destination, function, *arguments):
+    """Call a function with given argument nodes and assign the result
+    to a destination variable.
+
+    Args:
+        - destination   - a node implementing the 'Variable' interface
+        - function      - a callable or a coroutine function
+        - arguments     - nodes to supply the arguments to the function
+
+    Returns:
+        - depending on the type of the 'function' argument, a callable or
+          a coroutine function
+    """
     getters = [arg_getter(argument) for argument in arguments]
 
-    def _assign():
-        args = [getter() for getter in getters]
-        destination.value = function(*args)
-    return _assign
+    if inspect.iscoroutinefunction(function):
+        async def assigner():
+            args = [getter() for getter in getters]
+            destination.value = await function(*args)
+        return assigner
+
+    else:
+        def assigner():
+            args = [getter() for getter in getters]
+            destination.value = function(*args)
+        return assigner
 
 
 class GraphException(Exception):

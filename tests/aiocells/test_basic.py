@@ -1,4 +1,5 @@
 
+import asyncio
 import inspect
 import operator
 import pytest
@@ -157,6 +158,26 @@ def test_assignment_mixed_args():
 
     input_2.value = 3
     assignment()
+    assert output.value == 7
+
+
+async def async_sum(args):
+    return sum(args)
+
+
+def test_assignment_coroutine_function():
+    input_1 = basic.Variable(value=1)
+    input_2 = basic.Variable(value=2)
+    input_3 = basic.Variable(value=3)
+    output = basic.Variable()
+
+    assignment = basic.assign(output, async_sum, [input_1, input_2, input_3])
+    assert inspect.iscoroutinefunction(assignment)
+    asyncio.run(assignment())
+    assert output.value == 6
+
+    input_3.value = 4
+    asyncio.run(assignment())
     assert output.value == 7
 
 # ===========================================================================
