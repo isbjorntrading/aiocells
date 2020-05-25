@@ -7,7 +7,7 @@ README = (THIS_DIR / "README.md").read_text()
 
 setup(
     name="aiocells",
-    version="0.1.10",
+    version="0.1.11",
     python_requires=">=3.8",
     description="A package for synchronous and asynchronous"
                 " dependency graph computation",
@@ -16,7 +16,12 @@ setup(
     url="https://github.com/isbjorntrading/aiocells",
     author="Anders Lindstrom",
     author_email="anders@isbjorn.com.au",
-    license="Not Open Source Yet",
+    license="MIT",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+    ],
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     include_package_data=True,
