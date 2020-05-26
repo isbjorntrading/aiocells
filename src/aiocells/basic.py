@@ -126,21 +126,22 @@ def arg_getter(arg):
     # If the arg is a sequence, we first generate a list of getters for
     # the elements of the list. When then return a function that invokes
     # those getters when it is invoked.
-    if isinstance(arg, collections.abc.Sequence):
+    if isinstance(arg, (list, tuple)):
         # Here's the list of getters for the sequence elements
         getters = [arg_getter(x) for x in arg]
 
         # Here's the function that will invoke those getters when it is
         # invoked
         def sequence_getter():
-            return [g() for g in getters]
+            return type(arg)(g() for g in getters)
         return sequence_getter
 
-    if isinstance(arg, collections.abc.Mapping):
-        raise Exception("Don't know what to do with arg of type {type(arg)}")
+    if not isinstance(arg, str) and \
+       isinstance(arg, collections.abc.Collection):
+        raise Exception(f"Don't know what to do with arg of type {type(arg)}")
 
     # Arg is neither an object with a "value" attribute and nor is it a
-    # sequence or a map. In this case, we consider the value to be a literal.
+    # collection or a map. In this case, we consider the value to be a literal.
     # We generate a function that simply returns the value as is
     def literal_getter():
         return arg

@@ -1,5 +1,6 @@
 
 import asyncio
+import collections
 import inspect
 import operator
 import pytest
@@ -130,7 +131,7 @@ def test_assignment_variable_args():
 # Here, the argument pass to to the 'sum' function is a list of
 # basic.Variable. The values of these variables are gotten every time
 # the assignment is invoked.
-def test_assignment_sequence_arg():
+def test_assignment_list_arg():
     input_1 = basic.Variable(value=1)
     input_2 = basic.Variable(value=2)
     input_3 = basic.Variable(value=3)
@@ -143,6 +144,33 @@ def test_assignment_sequence_arg():
     input_3.value = 4
     assignment()
     assert output.value == 7
+
+
+# Same as previous except a tuple is used rather than a list
+def test_assignment_tuple_arg():
+    input_1 = basic.Variable(value=1)
+    input_2 = basic.Variable(value=2)
+    input_3 = basic.Variable(value=3)
+    output = basic.Variable()
+
+    assignment = basic.assign(output, sum, (input_1, input_2, input_3))
+    assignment()
+    assert output.value == 6
+
+    input_3.value = 4
+    assignment()
+    assert output.value == 7
+
+
+def test_assignment_str_literal_arg():
+    # This caused an infinite recursion because the test in the library
+    # is for 'Sequence' when it should be for 'list'
+    input_1 = "hello"
+    output = basic.Variable()
+
+    assignment = basic.assign(output, len, input_1)
+    assignment()
+    assert output.value == 5
 
 
 def test_assignment_mixed_args():
