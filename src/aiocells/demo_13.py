@@ -21,7 +21,7 @@ def main():
     # 'aio.timer' will put the current time in the 'time' variable when
     # one second has expired
     timer = functools.partial(aiocells.timer, 1, time)
-    printer = aiocells.Printer(time, "variable changed to {value}")
+    printer = aiocells.print_value(time, "variable changed to {value}")
 
     graph.add_precedence(timer, time)
     graph.add_precedence(time, printer)

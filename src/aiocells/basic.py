@@ -104,14 +104,10 @@ class Variable:
         return self.name
 
 
-class Printer:
-
-    def __init__(self, input_cell, message):
-        self.input_cell = input_cell
-        self.message = message
-
-    def __call__(self):
-        print(self.message.format(value=self.input_cell.value))
+def print_value(input_cell, message):
+    def f():
+        print(message.format(value=input_cell.value))
+    return f
 
 
 def arg_getter(arg):

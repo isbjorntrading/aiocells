@@ -36,7 +36,7 @@ def main():
 
     # Here, we bind the coroutine method with the object
     compute_timer = functools.partial(TimerObject.compute, timer)
-    printer = aiocells.Printer(time, "variable changed to {value}")
+    printer = aiocells.print_value(time, "variable changed to {value}")
 
     graph.add_precedence(compute_timer, time)
     graph.add_precedence(time, printer)
