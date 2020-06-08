@@ -10,7 +10,7 @@ def test_basic():
     assert aiocells.Variable is basic.Variable
     assert aiocells.compute_sequential is basic.compute_sequential
     assert aiocells.Stopwatch is basic.Stopwatch
-    assert aiocells.Printer is basic.Printer
+    assert aiocells.print_value is basic.print_value
     assert aiocells.assign is basic.assign
 
 
