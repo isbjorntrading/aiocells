@@ -9,7 +9,7 @@ default: test
 # virtualenv
 
 python_version := 3.8
-venv_dir := .tools/py38
+venv_dir := .tools/venv/aiocells
 
 venv_cmd = . ${venv_dir}/bin/activate && $1
 

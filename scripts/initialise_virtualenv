@@ -61,7 +61,7 @@ old_virtual_env_error() {
 
 # We're expecting a version format of 'virtualenv A.B.C from ....'
 # Older versions do not have this format.
-if ! $(virtualenv --version | grep -q '^virtualenv'); then
+if ! $(virtualenv --version 2>&1 | grep -q '^virtualenv'); then
     old_virtual_env_error
 fi
 
