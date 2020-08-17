@@ -42,6 +42,7 @@ async def compute_flow(graph):
             if node in input_nodes:
                 continue
             if inspect.iscoroutinefunction(node):
-                raise Exception("Cannot handle async internal nodes yet")
-            assert callable(node)
-            node()
+                await node()
+            else:
+                assert callable(node)
+                node()
