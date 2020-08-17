@@ -9,8 +9,10 @@ import aiocells
 
 logger = logging.getLogger()
 
+
 async def async_printer(variable):
     print(f"value: {variable.value}")
+
 
 def main():
 
