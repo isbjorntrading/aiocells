@@ -66,7 +66,9 @@ if ! $(virtualenv --version 2>&1 | grep -q '^virtualenv'); then
 fi
 
 # Extract the major version
-virtual_env_major_version=$(virtualenv --version  | awk '{print $2}' | awk -F. '{print $1}')
+virtual_env_major_version=$(virtualenv --version 2>&1 | awk '{print $2}' | awk -F. '{print $1}')
+
+echo virtual_env_major_version=${virtual_env_major_version}
 
 if [ "${virtual_env_major_version}" -lt 20 ]; then
     old_virtual_env_error
