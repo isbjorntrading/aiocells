@@ -21,6 +21,7 @@ def is_repeater(function):
 
 
 async def compute_flow(graph):
+    running_tasks = []
     try:
         assert graph is not None
         input_nodes = graph.input_nodes
@@ -56,8 +57,9 @@ async def compute_flow(graph):
                     assert callable(node)
                     node()
     except asyncio.CancelledError as e:
-        logger.exception("compute_flow cancelled")
+        aio.cancel_tasks(running_tasks)
         raise
     except Exception as e:
+        aio.cancel_tasks(running_tasks)
         logger.exception("compute_flow error")
         raise

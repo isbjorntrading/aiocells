@@ -149,7 +149,10 @@ async def timer(seconds, result_variable):
     result_variable.value = datetime.datetime.now()
 
 
-# async def random_timer(low_seconds, high_seconds, result_variable):
-#     interval = random.randint(low_seconds, high_seconds)
-#     await asyncio.sleep(interval)
-#     result_variable.value = datetime.datetime.now()
+async def cancel_tasks(tasks):
+    for task in tasks:
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
