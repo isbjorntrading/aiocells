@@ -60,6 +60,6 @@ async def compute_flow(graph):
         await aio.cancel_tasks(running_tasks)
         raise
     except Exception as e:
-        aio.cancel_tasks(running_tasks)
+        await aio.cancel_tasks(running_tasks)
         logger.exception("compute_flow error")
         raise
