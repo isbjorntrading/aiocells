@@ -37,13 +37,13 @@ async def compute_flow(graph):
             )
             logger.debug("Input received")
             aio.raise_task_exceptions(completed_tasks)
-            completed_coro_functions = [
+            completed_repeater_functions = [
                 task.aio_coroutine_function
                 for task in completed_tasks
                 if is_repeater(task.aio_coroutine_function)
             ]
             callables, new_tasks = aio.prepare_ready_set(
-                completed_coro_functions
+                completed_repeater_functions
             )
             assert len(callables) == 0
             running_tasks |= new_tasks

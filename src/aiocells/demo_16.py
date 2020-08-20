@@ -35,9 +35,9 @@ def main():
     graph.add_precedence(timer_3, time_3)
     graph.add_precedence(time_3, printer_3)
 
-    # With a flow computation, only input nodes (those with no dependencies),
-    # can be coroutine functions. When any one of those nodes returns, the
-    # graph is computed. When this happens, we are generally only interested
-    # in nodes that change as a result of the input node returning. So, in
-    # this case, we see a message at 0 seconds, 1 second and 3 seconds.
+    # With a flow computation, when any of the input nodes returns, all
+    # non-input nodes are computed in topological order.  When this happens, we
+    # are generally only interested in nodes that change as a result of the
+    # input node returning. So, in this case, we see a message at 0 seconds, 1
+    # second and 3 seconds.
     asyncio.run(aiocells.compute_flow(graph))
