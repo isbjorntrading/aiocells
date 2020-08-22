@@ -51,7 +51,7 @@ async def compute_flow(graph):
             for node in graph.topological_ordering:
                 if node in input_nodes:
                     continue
-                logger.debug("Computing dependen node: %s", node)
+                logger.debug("Computing dependent node: %s", node)
                 if inspect.iscoroutinefunction(node):
                     await node()
                 else:
