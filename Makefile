@@ -14,12 +14,12 @@ venv_dir := .tools/venv/aiocells
 venv_cmd = . ${venv_dir}/bin/activate && $1
 
 .tools/venv_initialised: dev_requirements.txt setup.py
-	scripts/initialise_virtualenv ${python_version} ${venv_dir}
+	build_scripts/initialise_virtualenv ${python_version} ${venv_dir}
 	touch $@
 
 activate_aiocells: .tools/venv_initialised
 	$(call message,"Generating $@ script")
-	scripts/generate_activate_aiocells ${venv_dir}
+	build_scripts/generate_activate_aiocells ${venv_dir}
 
 .PHONY: venv
 venv: activate_aiocells
@@ -32,7 +32,7 @@ nuke:
 .PHONY: test
 test: | venv
 	$(call message,"Running tests...")
-	$(call venv_cmd, scripts/run_tests)
+	$(call venv_cmd, build_scripts/run_tests)
 
 #------------------------------------------------------------------------------
 # distribution
