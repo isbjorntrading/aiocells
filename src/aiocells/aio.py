@@ -12,7 +12,7 @@ logger = logging.getLogger()
 
 async def async_compute_sequential(graph):
     for node in graph.topological_ordering:
-        assert callable(node) or inspect.iscoroutinefunction(node)
+        assert callable(node) or inspect.iscoroutinefunction(node), f"{node=}"
         if inspect.iscoroutinefunction(node):
             await node()
         else:
