@@ -15,13 +15,8 @@ async def async_main():
     clock = aiocells.ModClock()
     graph = aiocells.DependencyGraph()
 
-    # Three completely unrelated sequences are added to the graph. They
+    # Two completely unrelated sequences are added to the graph. They
     # run concurrently.
-    # time_0 = aiocells.ModVariable(clock)
-    # timer_0 = functools.partial(aiocells.timer, 0, time_0)
-    # printer_0 = aiocells.ModPrinter(clock, time_0, "time_0 changed to {value}")
-    # graph.add_precedence(timer_0, time_0)
-    # graph.add_precedence(time_0, printer_0)
 
     time_1 = aiocells.ModVariable(clock)
     timer_1 = functools.partial(aiocells.timer, 1, time_1)
@@ -38,8 +33,8 @@ async def async_main():
     # With a flow computation, when any of the input nodes returns, all
     # non-input nodes are computed in topological order.  When this happens, we
     # are generally only interested in nodes that change as a result of the
-    # input node returning. So, in this case, we see a message at 0 seconds, 1
-    # second and 3 seconds.
+    # input node returning. So, in this case, we see a message from "time_1"
+    # every second and a message from "time_3" every 3 seconds
 
     while await aiocells.compute_flow(graph):
         pass

@@ -20,14 +20,9 @@ import aiocells.demo_19
 import aiocells.demo_20
 
 
-import logging
-import sys
-
 @click.group()
 def main():
-    logging.getLogger().setLevel(logging.DEBUG)
-    log_handler = logging.StreamHandler(sys.stdout)
-    logging.getLogger().addHandler(log_handler)
+    pass
 
 
 @main.command()
