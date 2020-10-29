@@ -16,7 +16,6 @@ import aiocells.demo_14
 import aiocells.demo_15
 import aiocells.demo_16
 import aiocells.demo_17
-import aiocells.demo_18
 import aiocells.demo_19
 import aiocells.demo_20
 
@@ -114,11 +113,6 @@ def demo_16():
 @main.command()
 def demo_17():
     aiocells.demo_17.main()
-
-
-@main.command()
-def demo_18():
-    aiocells.demo_18.main()
 
 
 @main.command()

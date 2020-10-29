@@ -23,9 +23,9 @@ async def async_main():
     printer = aiocells.ModPrinter(clock, time, "time changed to {value}")
     graph.add_precedence(time, printer)
 
-    # Set the time after 0 seconds
-    timer_0 = functools.partial(aiocells.timer, 0, time)
-    graph.add_precedence(timer_0, time)
+    # # Set the time after 0 seconds
+    # timer_0 = functools.partial(aiocells.timer, 0, time)
+    # graph.add_precedence(timer_0, time)
 
     # Set the time after 1 second
     timer_1 = functools.partial(aiocells.timer, 1, time)

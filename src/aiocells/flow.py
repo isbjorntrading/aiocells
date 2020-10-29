@@ -56,7 +56,7 @@ async def compute_flow(graph):
         completed_repeater_functions = [
             task.aio_coroutine_function
             for task in completed_tasks
-            if is_repeater(task.aio_coroutine_function)
+            # if is_repeater(task.aio_coroutine_function)
         ]
         flow_state.callables, new_tasks = aio.prepare_ready_set(
             completed_repeater_functions

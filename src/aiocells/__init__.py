@@ -7,4 +7,4 @@ from .aio import async_compute_sequential, async_compute_concurrent, \
 
 from .mod import ModClock, ModVariable, ModPrinter
 
-from .flow import compute_flow, repeat
+from .flow import compute_flow
