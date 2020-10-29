@@ -30,4 +30,3 @@ def test_mod():
 
 def test_flow():
     assert aiocells.compute_flow is flow.compute_flow
-    assert aiocells.repeat is flow.repeat

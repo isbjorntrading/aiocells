@@ -34,5 +34,6 @@ async def async_main():
     while await aiocells.compute_flow(graph):
         pass
 
+
 def main():
     asyncio.run(async_main())
