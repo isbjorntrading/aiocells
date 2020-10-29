@@ -2,12 +2,8 @@
 
 import asyncio
 import functools
-import logging
 
 import aiocells
-
-
-logger = logging.getLogger()
 
 
 def subgraph(name, period):
@@ -39,19 +35,14 @@ async def async_main():
     subgraph_1 = subgraph("graph_1", 0.7)
     subgraph_2 = subgraph("graph_2", 1.5)
 
-    one_step_1 = await aiocells.compute_flow(subgraph_1)
-    graph.add_node(aiocells.repeat(one_step_1))
-
-    one_step_2 = await aiocells.compute_flow(subgraph_2)
-    graph.add_node(aiocells.repeat(one_step_2))
+    graph.add_node(aiocells.repeat(functools.partial(aiocells.compute_flow, subgraph_1)))
+    graph.add_node(aiocells.repeat(functools.partial(aiocells.compute_flow, subgraph_2)))
 
     print()
     print("Ctrl-C to exit the demo")
     print()
 
-    one_step = await aiocells.compute_flow(graph)
-
-    while (await one_step()):
+    while await aiocells.compute_flow(graph):
         pass
 
 

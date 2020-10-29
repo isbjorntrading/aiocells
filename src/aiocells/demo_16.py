@@ -41,9 +41,7 @@ async def async_main():
     # input node returning. So, in this case, we see a message at 0 seconds, 1
     # second and 3 seconds.
 
-    one_step = await aiocells.compute_flow(graph)
-
-    while (await one_step()):
+    while await aiocells.compute_flow(graph):
         pass
 
 def main():

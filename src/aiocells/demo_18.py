@@ -41,9 +41,7 @@ async def async_main():
     repeat_timer = aiocells.repeat(functools.partial(aiocells.timer, 1, time))
     graph.add_precedence(repeat_timer, time)
 
-    one_step = await aiocells.compute_flow(graph)
-
-    while (await one_step()):
+    while await aiocells.compute_flow(graph):
         pass
 
 
