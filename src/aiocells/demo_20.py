@@ -14,7 +14,7 @@ async def async_printer(variable):
     print(f"value: {variable.value}")
 
 
-def main():
+async def async_main():
 
     # Tests an async internal node in a flow graph
 
@@ -37,4 +37,10 @@ def main():
     repeat_timer = aiocells.repeat(functools.partial(aiocells.timer, 1, time))
     graph.add_precedence(repeat_timer, time)
 
-    asyncio.run(aiocells.compute_flow(graph))
+    one_step = await aiocells.compute_flow(graph)
+
+    while (await one_step()):
+        pass
+
+def main():
+    asyncio.run(async_main())

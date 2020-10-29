@@ -10,7 +10,7 @@ import aiocells
 logger = logging.getLogger()
 
 
-def main():
+async def async_main():
 
     clock = aiocells.ModClock()
     graph = aiocells.DependencyGraph()
@@ -40,4 +40,11 @@ def main():
     # are generally only interested in nodes that change as a result of the
     # input node returning. So, in this case, we see a message at 0 seconds, 1
     # second and 3 seconds.
-    asyncio.run(aiocells.compute_flow(graph))
+
+    one_step = await aiocells.compute_flow(graph)
+
+    while (await one_step()):
+        pass
+
+def main():
+    asyncio.run(async_main())

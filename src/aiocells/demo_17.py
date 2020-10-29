@@ -10,7 +10,7 @@ import aiocells
 logger = logging.getLogger()
 
 
-def main():
+async def async_main():
 
     clock = aiocells.ModClock()
     graph = aiocells.DependencyGraph()
@@ -35,4 +35,11 @@ def main():
     timer_3 = functools.partial(aiocells.timer, 3, time)
     graph.add_precedence(timer_3, time)
 
-    asyncio.run(aiocells.compute_flow(graph))
+    one_step = await aiocells.compute_flow(graph)
+
+    while (await one_step()):
+        pass
+
+
+def main():
+    asyncio.run(async_main())

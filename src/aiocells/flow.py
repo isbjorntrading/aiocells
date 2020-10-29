@@ -21,15 +21,26 @@ def is_repeater(function):
 
 
 async def compute_flow(graph):
+
+    logger.debug("enter")
+
     running_tasks = []
-    try:
-        assert graph is not None
-        input_nodes = graph.input_nodes
-        callables, running_tasks = aio.prepare_ready_set(input_nodes)
-        if len(callables) > 0:
-            raise Exception("Input nodes must be coroutines")
+    input_nodes = graph.input_nodes
+    callables, running_tasks = aio.prepare_ready_set(input_nodes)
+    if len(callables) > 0:
+        raise Exception("Input nodes must be coroutines")
+
+    async def one_step():
+        nonlocal running_tasks
+        nonlocal input_nodes
+        nonlocal callables
+
+        logger.debug("enter")
+
         # Wait for at least one input node to complete
-        while len(running_tasks) > 0:
+        if len(running_tasks) == 0:
+            return len(running_tasks)
+        try:
             logger.debug("Waiting for input tasks")
             completed_tasks, running_tasks = await asyncio.wait(
                 running_tasks,
@@ -57,10 +68,13 @@ async def compute_flow(graph):
                 else:
                     assert callable(node)
                     node()
-    except asyncio.CancelledError as e:
-        await aio.cancel_tasks(running_tasks)
-        raise
-    except Exception as e:
-        await aio.cancel_tasks(running_tasks)
-        logger.exception("compute_flow error")
-        raise
+            return len(running_tasks)
+        except asyncio.CancelledError as e:
+            await aio.cancel_tasks(running_tasks)
+            raise
+        except Exception as e:
+            await aio.cancel_tasks(running_tasks)
+            logger.exception("compute_flow error")
+            raise
+
+    return one_step
