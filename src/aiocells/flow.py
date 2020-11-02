@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 
 def repeat(function):
     if not inspect.iscoroutinefunction(function):
-        raise ValueError(f"Event source must be a coroutine function: {function=}")
+        raise ValueError("Event source must be a coroutine "
+                         f"function: {function=}")
     setattr(function, REPEATER, True)
     return function
 
