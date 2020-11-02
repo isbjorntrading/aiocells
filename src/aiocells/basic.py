@@ -12,7 +12,7 @@ SOURCE = "__aiocells_source__"
 
 def source(function):
     if not inspect.iscoroutinefunction(function):
-        raise ValueError("Event source must be a coroutine function")
+        raise ValueError(f"Event source must be a coroutine function: {function=}")
     setattr(function, SOURCE, True)
     return function
 
