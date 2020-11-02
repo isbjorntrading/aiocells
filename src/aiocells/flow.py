@@ -37,7 +37,7 @@ async def compute_flow(graph):
         callables, running_tasks = aio.prepare_ready_set(graph.source_nodes)
         graph.__flow_state = FlowState(callables, running_tasks)
         if len(graph.__flow_state.callables) > 0:
-            raise Exception("Input nodes must be coroutines")
+            raise Exception(f"Input nodes must be coroutines: {callables=}")
 
     flow_state = graph.__flow_state
 
