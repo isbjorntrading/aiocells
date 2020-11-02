@@ -35,7 +35,7 @@ async def compute_flow(graph):
     logger.debug("enter")
 
     if not hasattr(graph, "__flow_state"):
-        callables, running_tasks = aio.prepare_ready_set(graph.source_nodes)
+        callables, running_tasks = aio.prepare_ready_set(graph.input_nodes)
         graph.__flow_state = FlowState(callables, running_tasks)
         if len(graph.__flow_state.callables) > 0:
             raise Exception(f"Input nodes must be coroutines: {callables=}")
@@ -66,7 +66,7 @@ async def compute_flow(graph):
         flow_state.running_tasks |= new_tasks
         logger.debug("Computing dependent nodes")
         for node in graph.topological_ordering:
-            if node in graph.source_nodes:
+            if node in graph.input_nodes:
                 continue
             logger.debug("Computing dependent node: %s", node)
             if inspect.iscoroutinefunction(node):

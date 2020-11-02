@@ -7,21 +7,6 @@ import inspect
 import logging
 
 
-SOURCE = "__aiocells_source__"
-
-
-def source(function):
-    if not inspect.iscoroutinefunction(function):
-        raise ValueError("Event source must be a coroutine "
-                         f"function: {function=}")
-    setattr(function, SOURCE, True)
-    return function
-
-
-def is_source(function):
-    return getattr(function, SOURCE, False)
-
-
 class Stopwatch:
 
     def __init__(
@@ -271,7 +256,6 @@ class DependencyGraph:
         self._topological_ordering = None
         self._precedence_dict = None
         self._input_nodes = None
-        self._source_nodes = None
         self.dependency_dict = {}
         for node, dependencies in initial_dependencies.items():
             self.add_node(node)
@@ -288,7 +272,6 @@ class DependencyGraph:
         self._topological_ordering = None
         self._precedence_dict = None
         self._input_nodes = None
-        self._source_nodes = None
 
     def add_dependency(self, from_cell, to_cell):
         """Declare a dependency between two nodes. The nodes are implicitly
@@ -361,15 +344,6 @@ class DependencyGraph:
                 if len(dependencies) == 0
             }
         return self._input_nodes
-
-    @property
-    def source_nodes(self):
-        if self._source_nodes is None:
-            self._source_nodes = {
-                node for node, dependencies in self.dependency_dict.items()
-                if is_source(node)
-            }
-        return self._source_nodes
 
     def decorate(self, decorator_factory):
         """This function replaces nodes in the graph with asyncio.Tasks.

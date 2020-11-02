@@ -24,11 +24,11 @@ async def async_main():
     graph.add_precedence(time, printer)
 
     # Set the time after 1 second
-    timer_1 = aiocells.source(functools.partial(aiocells.timer, 1, time))
+    timer_1 = functools.partial(aiocells.timer, 1, time)
     graph.add_precedence(timer_1, time)
 
     # Set the time after 3 seconds
-    timer_3 = aiocells.source(functools.partial(aiocells.timer, 3, time))
+    timer_3 = functools.partial(aiocells.timer, 3, time)
     graph.add_precedence(timer_3, time)
 
     while await aiocells.compute_flow(graph):

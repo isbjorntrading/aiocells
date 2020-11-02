@@ -17,9 +17,9 @@ def subgraph(name, period):
     )
     graph.add_precedence(time, printer)
 
-    timer = aiocells.source(functools.partial(
+    timer = functools.partial(
         aiocells.timer, period, time
-    ))
+    )
     graph.add_precedence(timer, time)
 
     return graph
@@ -32,10 +32,8 @@ async def async_main():
     subgraph_1 = subgraph("graph_1", 0.7)
     subgraph_2 = subgraph("graph_2", 1.5)
 
-    graph.add_node(aiocells.source(
-        functools.partial(aiocells.compute_flow, subgraph_1)))
-    graph.add_node(aiocells.source(
-        functools.partial(aiocells.compute_flow, subgraph_2)))
+    graph.add_node(functools.partial(aiocells.compute_flow, subgraph_1))
+    graph.add_node(functools.partial(aiocells.compute_flow, subgraph_2))
 
     print()
     print("Ctrl-C to exit the demo")
