@@ -734,3 +734,14 @@ def test_null_parameters():
     with pytest.raises(ValueError) as e:
         graph.add_dependency(None, None)
     assert str(e.value) == "Invalid argument: from_cell=None"
+
+
+@basic.source
+async def source_for_testing():
+    pass
+
+
+def test_source():
+
+    s1 = source_for_testing
+    assert basic.is_source(s1)

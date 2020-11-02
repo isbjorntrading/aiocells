@@ -34,7 +34,7 @@ async def async_main():
     print()
     print("Ctrl-C to exit the demo")
     print()
-    repeat_timer = functools.partial(aiocells.timer, 1, time)
+    repeat_timer = aiocells.source(functools.partial(aiocells.timer, 1, time))
     graph.add_precedence(repeat_timer, time)
 
     while await aiocells.compute_flow(graph):

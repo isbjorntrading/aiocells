@@ -4,7 +4,7 @@ import inspect
 import logging
 import random
 
-from .basic import TopologicalQueue
+from .basic import TopologicalQueue, source
 
 
 logger = logging.getLogger()
