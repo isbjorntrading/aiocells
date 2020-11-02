@@ -32,8 +32,10 @@ async def async_main():
     subgraph_1 = subgraph("graph_1", 0.7)
     subgraph_2 = subgraph("graph_2", 1.5)
 
-    graph.add_node(aiocells.source(functools.partial(aiocells.compute_flow, subgraph_1)))
-    graph.add_node(aiocells.source(functools.partial(aiocells.compute_flow, subgraph_2)))
+    graph.add_node(aiocells.source(
+        functools.partial(aiocells.compute_flow, subgraph_1)))
+    graph.add_node(aiocells.source(
+        functools.partial(aiocells.compute_flow, subgraph_2)))
 
     print()
     print("Ctrl-C to exit the demo")
