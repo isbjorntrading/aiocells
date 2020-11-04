@@ -78,3 +78,5 @@ async def compute_flow(graph):
     except (asyncio.CancelledError, Exception) as e:
         await aio.cancel_tasks(flow_state.running_tasks)
         raise
+
+    logger.debug("exit")

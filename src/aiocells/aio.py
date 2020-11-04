@@ -11,6 +11,7 @@ logger = logging.getLogger()
 
 
 async def async_compute_sequential(graph):
+    logger.debug("enter")
     for node in graph.topological_ordering:
         assert callable(node) or inspect.iscoroutinefunction(node), f"{node=}"
         if inspect.iscoroutinefunction(node):
@@ -18,6 +19,7 @@ async def async_compute_sequential(graph):
         else:
             assert callable(node)
             node()
+    logger.debug("exit")
 
 
 def async_callable(the_callable):
@@ -60,6 +62,8 @@ def raise_task_exceptions(tasks):
 
 async def async_compute_concurrent_simple(graph):
 
+    logger.debug("enter")
+
     assert graph is not None
 
     task_graph = graph.decorate(ensure_coroutine)
@@ -87,6 +91,8 @@ async def async_compute_concurrent_simple(graph):
     assert len(ready_tasks) == 0
     assert queue.empty(), f"queue.dependency_dict: {queue.dependency_dict}"
 
+    logger.debug("exit")
+
 
 def prepare_ready_set(ready_set):
     callables = set()
@@ -109,6 +115,9 @@ def prepare_ready_set(ready_set):
 
 
 async def async_compute_concurrent(graph):
+
+    logger.debug("enter")
+
     assert graph is not None
 
     queue = TopologicalQueue(graph)
@@ -143,6 +152,8 @@ async def async_compute_concurrent(graph):
     assert len(running_tasks) == 0
     assert queue.empty()
 
+    logger.debug("exit")
+
 
 async def timer(seconds, result_variable):
     await asyncio.sleep(seconds)
@@ -150,9 +161,13 @@ async def timer(seconds, result_variable):
 
 
 async def cancel_tasks(tasks):
+    logger.debug("enter")
+
     for task in tasks:
         task.cancel()
         try:
             await task
         except asyncio.CancelledError:
             pass
+
+    logger.debug("exit")
