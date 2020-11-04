@@ -83,9 +83,20 @@ async def compute_flow(graph):
                 node()
 
         return len(flow_state.input_tasks)
-    except (asyncio.CancelledError, Exception) as e:
+    except asyncio.CancelledError:
         await aio.cancel_tasks(flow_state.input_tasks)
+        # Don't reraise - this is an expected error when cancelling the
+        # flow with `cancel_flow`
+    except Exception:
+        await aio.cancel_tasks(flow_state.input_tasks)
+        # Reraise - this is an unexpected exception
         raise
     finally:
         logger.debug("exit, len(flow_state.input_tasks)=%s",
                      len(flow_state.input_tasks))
+
+
+async def cancel_flow(graph):
+    if not hasattr(graph, "__flow_state"):
+        raise Exception("Graph does not have __flow_state attribute")
+    await aio.cancel_tasks(graph.__flow_state.input_tasks)

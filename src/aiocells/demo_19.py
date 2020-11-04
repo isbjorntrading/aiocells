@@ -36,11 +36,14 @@ async def async_main():
     graph.add_node(functools.partial(aiocells.compute_flow, subgraph_2))
 
     print()
-    print("Ctrl-C to exit the demo")
+    print("Demo will complete in 10 iterations. Ctrl-C to cancel.")
     print()
 
+    iteration_count = 0
     while await aiocells.compute_flow(graph):
-        pass
+        iteration_count += 1
+        if iteration_count > 10:
+            await aiocells.cancel_flow(graph)
 
 
 def main():

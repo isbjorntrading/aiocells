@@ -32,13 +32,16 @@ async def async_main():
     # `compute` functions.
 
     print()
-    print("Ctrl-C to exit the demo")
+    print("Demo will complete in 10 iterations. Ctrl-C to cancel.")
     print()
     repeat_timer = functools.partial(aiocells.timer, 1, time)
     graph.add_precedence(repeat_timer, time)
 
+    iteration_count = 0
     while await aiocells.compute_flow(graph):
-        pass
+        iteration_count += 1
+        if iteration_count > 10:
+            await aiocells.cancel_flow(graph)
 
 
 def main():

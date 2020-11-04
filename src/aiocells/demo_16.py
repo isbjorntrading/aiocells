@@ -36,8 +36,15 @@ async def async_main():
     # input node returning. So, in this case, we see a message from "time_1"
     # every second and a message from "time_3" every 3 seconds
 
+    print()
+    print("Demo will complete in 10 iterations. Ctrl-C to cancel.")
+    print()
+
+    iteration_count = 0
     while await aiocells.compute_flow(graph):
-        pass
+        iteration_count += 1
+        if iteration_count > 10:
+            await aiocells.cancel_flow(graph)
 
 
 def main():
