@@ -7,7 +7,7 @@ import random
 from .basic import TopologicalQueue
 
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 async def async_compute_sequential(graph):
