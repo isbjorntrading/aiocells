@@ -1,4 +1,8 @@
+import logging
+
 import click
+import isbjorn.log
+
 import aiocells.demo_1
 import aiocells.demo_2
 import aiocells.demo_3
@@ -21,8 +25,15 @@ import aiocells.demo_20
 
 
 @click.group()
-def main():
-    pass
+@click.option("--log-line-no", default=False)
+@click.option("--log-level", type=str, default=logging.INFO)
+@click.option("--log-file", type=str, default=None)
+def main(log_line_no, log_file, log_level):
+    isbjorn.log.configure_logging(
+        level=log_level,
+        with_line_no=log_line_no,
+        log_file=log_file,
+    )
 
 
 @main.command()

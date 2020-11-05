@@ -164,7 +164,8 @@ async def cancel_tasks(tasks):
     logger.debug("enter")
 
     for task in tasks:
-        logger.debug("cancelling task: %s", task)
+        logger.debug("Cancelling task: %s, coro_name=%s",
+                     task, task.get_coro().__name__)
         task.cancel()
         try:
             await task

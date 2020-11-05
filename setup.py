@@ -27,6 +27,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "click>=7.0",
+        "isbjorn-logga>=1.0.0",
     ],
     entry_points={
         "console_scripts": [
