@@ -10,7 +10,9 @@ import aiocells
 logger = logging.getLogger()
 
 
-async def async_main():
+async def async_main(iterations=None):
+
+    iterations = iterations if iterations is not None else 10
 
     clock = aiocells.ModClock()
     graph = aiocells.DependencyGraph()
@@ -43,9 +45,9 @@ async def async_main():
     iteration_count = 0
     while await aiocells.compute_flow(graph):
         iteration_count += 1
-        if iteration_count > 10:
+        if iteration_count > iterations:
             await aiocells.cancel_flow(graph)
 
 
-def main():
-    asyncio.run(async_main())
+def main(iterations):
+    asyncio.run(async_main(iterations))

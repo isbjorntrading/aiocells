@@ -112,8 +112,9 @@ def demo_15():
 
 
 @main.command()
-def demo_16():
-    aiocells.demo_16.main()
+@click.option("--iterations", type=int)
+def demo_16(iterations):
+    aiocells.demo_16.main(iterations)
 
 
 @main.command()
