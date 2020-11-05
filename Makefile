@@ -67,4 +67,5 @@ ${tox_initialised}: tox.ini | venv
 # pypi
 .PHONY: upload
 upload: dist | venv
+	$(call venv_cmd, build_scripts/add_version_tag)
 	$(call venv_cmd, twine upload dist/*)
