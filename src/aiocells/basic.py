@@ -252,10 +252,11 @@ def topological_sort(dependency_dict: dict):
 
 class DependencyGraph:
 
-    def __init__(self, initial_dependencies={}):
+    def __init__(self, initial_dependencies={}, name=None):
         self._topological_ordering = None
         self._precedence_dict = None
         self._input_nodes = None
+        self.name = name
         self.dependency_dict = {}
         for node, dependencies in initial_dependencies.items():
             self.add_node(node)

@@ -164,6 +164,7 @@ async def cancel_tasks(tasks):
     logger.debug("enter")
 
     for task in tasks:
+        logger.debug("cancelling task: %s", task)
         task.cancel()
         try:
             await task
