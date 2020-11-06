@@ -1,3 +1,4 @@
+import asyncio
 import collections
 import copy
 import datetime
@@ -252,7 +253,7 @@ def topological_sort(dependency_dict: dict):
 
 class DependencyGraph:
 
-    def __init__(self, initial_dependencies={}, name=None):
+    def __init__(self, *, initial_dependencies={}, name=None):
         self._topological_ordering = None
         self._precedence_dict = None
         self._input_nodes = None
@@ -449,3 +450,9 @@ class TopologicalQueue:
         del self.dependency_count[node]
 
         return now_ready
+
+
+def node_name(node):
+    if asyncio.iscoroutine(node):
+        return f"{node}, name={node.__name__}"
+    return str(node)

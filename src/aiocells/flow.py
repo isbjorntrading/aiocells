@@ -5,6 +5,7 @@ import inspect
 import logging
 
 import aiocells.aio as aio
+import aiocells.basic as basic
 
 REPEATER = "cells.flow.repeater"
 
@@ -26,7 +27,7 @@ def is_repeater(function):
 @dataclasses.dataclass
 class FlowState:
 
-    input_tasks: list
+    input_tasks: set
 
 
 async def compute_flow(graph):
@@ -79,7 +80,7 @@ async def compute_flow(graph):
         for node in graph.topological_ordering:
             if node in graph.input_nodes:
                 continue
-            logger.debug("Computing dependent node: %s", node)
+            logger.debug("Computing dependent node: %s", basic.node_name(node))
             if inspect.iscoroutinefunction(node):
                 await node()
             else:
@@ -90,7 +91,8 @@ async def compute_flow(graph):
 
     except asyncio.CancelledError:
         await aio.cancel_tasks(flow_state.input_tasks)
-        logger.debug("Caught asyncio.CancelledError")
+        flow_state.input_tasks.clear()
+        logger.debug("Caught asyncio.CancelledError in %s", graph.name)
         # Don't reraise - this is an expected error when cancelling the
         # flow with `cancel_flow`
     except Exception:

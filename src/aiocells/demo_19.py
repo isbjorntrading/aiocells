@@ -9,7 +9,7 @@ import aiocells
 def subgraph(name, period):
 
     clock = aiocells.ModClock()
-    graph = aiocells.DependencyGraph()
+    graph = aiocells.DependencyGraph(name=name)
 
     time = aiocells.ModVariable(clock)
     printer = aiocells.ModPrinter(
@@ -27,7 +27,7 @@ def subgraph(name, period):
 
 async def async_main():
 
-    graph = aiocells.DependencyGraph()
+    graph = aiocells.DependencyGraph(name="async_main")
 
     subgraph_1 = subgraph("graph_1", 0.7)
     subgraph_2 = subgraph("graph_2", 1.5)
