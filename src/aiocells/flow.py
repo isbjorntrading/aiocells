@@ -37,8 +37,8 @@ async def compute_flow(graph):
     if not hasattr(graph, "__flow_state"):
         logger.debug("First invocation, initialising flow state")
         callables, input_tasks = aio.prepare_ready_set(graph.input_nodes)
-        assert len(callables) == 0, \
-               f"Input nodes must be coroutines: {callables}"
+        assert len(callables) == 0, "Input nodes must be coroutines in " + \
+            f"\"{graph.name}\": {callables}"
         graph.__flow_state = FlowState(input_tasks)
 
     flow_state = graph.__flow_state
@@ -70,8 +70,8 @@ async def compute_flow(graph):
         callables, new_tasks = aio.prepare_ready_set(
             completed_input_functions
         )
-        assert len(callables) == 0,\
-               f"Input nodes must be coroutines: {callables}"
+        assert len(callables) == 0, "Input nodes must be coroutines in " + \
+            f"\"{graph.name}\": {callables}"
 
         logger.debug("new_tasks: %s", new_tasks)
         flow_state.input_tasks |= new_tasks
