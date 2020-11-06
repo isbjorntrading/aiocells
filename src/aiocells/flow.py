@@ -64,11 +64,14 @@ async def compute_flow(graph):
             task.aio_coroutine_function
             for task in completed_input_tasks
         ]
+        logger.debug("completed_input_functions: %s", completed_input_functions)
         callables, new_tasks = aio.prepare_ready_set(
             completed_input_functions
         )
         assert len(callables) == 0,\
                f"Input nodes must be coroutines: {callables}"
+
+        logger.debug("new_tasks: %s", new_tasks)
         flow_state.input_tasks |= new_tasks
 
         logger.debug("Computing dependent nodes")
@@ -83,6 +86,7 @@ async def compute_flow(graph):
                 node()
 
         return len(flow_state.input_tasks)
+
     except asyncio.CancelledError:
         await aio.cancel_tasks(flow_state.input_tasks)
         logger.debug("Caught asyncio.CancelledError")

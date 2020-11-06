@@ -11,7 +11,9 @@ logger = logging.getLogger(__name__)
 
 
 async def async_compute_sequential(graph):
+
     logger.debug("enter, graph.name=%s", graph.name)
+
     for node in graph.topological_ordering:
         assert callable(node) or inspect.iscoroutinefunction(node), f"{node=}"
         if inspect.iscoroutinefunction(node):
@@ -19,7 +21,8 @@ async def async_compute_sequential(graph):
         else:
             assert callable(node)
             node()
-    logger.debug("exit")
+
+    logger.debug("exit, graph.name=%s", graph.name)
 
 
 def async_callable(the_callable):
@@ -61,11 +64,11 @@ def raise_task_exceptions(tasks):
 
 
 async def async_compute_concurrent_simple(graph):
+
     logger.debug("enter, graph.name=%s", graph.name)
 
     task_graph = graph.decorate(ensure_coroutine)
     queue = TopologicalQueue(task_graph)
-
     ready_tasks = create_tasks(queue.ready_set())
 
     while len(ready_tasks):
@@ -80,14 +83,14 @@ async def async_compute_concurrent_simple(graph):
         ready_tasks -= completed
         for completed_task in completed:
             now_ready = queue.completed(completed_task.get_coro())
-            # print(f"now_ready: {now_ready}")
+            logger.debug("now_ready=%s", now_ready)
             ready_tasks |= create_tasks(now_ready)
-            # print(f"ready_tasks: {ready_tasks}")
+            logger.debug("ready_tasks=%s", now_ready)
 
     assert len(ready_tasks) == 0
     assert queue.empty(), f"queue.dependency_dict: {queue.dependency_dict}"
 
-    logger.debug("exit")
+    logger.debug("exit, graph.name=%s", graph.name)
 
 
 def prepare_ready_set(ready_set):
@@ -139,14 +142,17 @@ async def async_compute_concurrent(graph):
             for completed_task in completed_tasks:
                 completed_coro_function = completed_task.aio_coroutine_function
                 now_ready = queue.completed(completed_coro_function)
+                logger.debug("now_ready=%s", now_ready)
                 new_callables, new_tasks = prepare_ready_set(now_ready)
                 callables |= new_callables
+                logger.debug("callables=%s", callables)
                 running_tasks |= new_tasks
+                logger.debug("running_tasks=%s", running_tasks)
 
     assert len(running_tasks) == 0
     assert queue.empty()
 
-    logger.debug("exit")
+    logger.debug("exit, graph.name=%s", graph.name)
 
 
 async def timer(seconds, result_variable):
@@ -166,4 +172,4 @@ async def cancel_tasks(tasks):
         except asyncio.CancelledError:
             pass
 
-    logger.debug("exit")
+    logger.debug("exit, graph.name=%s", graph.name)
