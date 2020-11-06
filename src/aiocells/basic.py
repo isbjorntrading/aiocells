@@ -453,6 +453,9 @@ class TopologicalQueue:
 
 
 def node_name(node):
-    if asyncio.iscoroutine(node):
+    if asyncio.iscoroutine(node) or inspect.isfunction(node):
         return f"{node}, name={node.__name__}"
     return str(node)
+
+def node_names(sequence):
+    return [node_name(node) for node in sequence]

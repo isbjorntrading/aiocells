@@ -38,7 +38,7 @@ async def compute_flow(graph):
         logger.debug("First invocation, initialising flow state")
         callables, input_tasks = aio.prepare_ready_set(graph.input_nodes)
         assert len(callables) == 0, "Input nodes must be coroutines in " + \
-            f"\"{graph.name}\": {callables}"
+            f"\"{graph.name}\": {basic.node_names(callables)}"
         graph.__flow_state = FlowState(input_tasks)
 
     flow_state = graph.__flow_state
@@ -71,7 +71,7 @@ async def compute_flow(graph):
             completed_input_functions
         )
         assert len(callables) == 0, "Input nodes must be coroutines in " + \
-            f"\"{graph.name}\": {callables}"
+            f"\"{graph.name}\": {basic.node_names(callables)}"
 
         logger.debug("new_tasks: %s", new_tasks)
         flow_state.input_tasks |= new_tasks
