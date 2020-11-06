@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 async def async_compute_sequential(graph):
-    logger.debug("enter")
+    logger.debug("enter, graph.name=%s", graph.name)
     for node in graph.topological_ordering:
         assert callable(node) or inspect.iscoroutinefunction(node), f"{node=}"
         if inspect.iscoroutinefunction(node):
@@ -61,13 +61,9 @@ def raise_task_exceptions(tasks):
 
 
 async def async_compute_concurrent_simple(graph):
-
-    logger.debug("enter")
-
-    assert graph is not None
+    logger.debug("enter, graph.name=%s", graph.name)
 
     task_graph = graph.decorate(ensure_coroutine)
-
     queue = TopologicalQueue(task_graph)
 
     ready_tasks = create_tasks(queue.ready_set())
@@ -116,9 +112,7 @@ def prepare_ready_set(ready_set):
 
 async def async_compute_concurrent(graph):
 
-    logger.debug("enter")
-
-    assert graph is not None
+    logger.debug("enter, graph.name=%s", graph.name)
 
     queue = TopologicalQueue(graph)
     ready_set = queue.ready_set()

@@ -31,7 +31,7 @@ class FlowState:
 
 async def compute_flow(graph):
 
-    logger.debug("enter")
+    logger.debug("enter, graph.name=%s", graph.name)
 
     if not hasattr(graph, "__flow_state"):
         logger.debug("First invocation, initialising flow state")
@@ -93,8 +93,8 @@ async def compute_flow(graph):
         # Reraise - this is an unexpected exception
         raise
     finally:
-        logger.debug("exit, len(flow_state.input_tasks)=%s",
-                     len(flow_state.input_tasks))
+        logger.debug("exit, graph.name=%s, len(flow_state.input_tasks)=%s",
+                     graph.name, len(flow_state.input_tasks))
 
 
 async def cancel_flow(graph):

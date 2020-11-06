@@ -15,7 +15,7 @@ async def async_main(iterations=None):
     iterations = iterations if iterations is not None else 10
 
     clock = aiocells.ModClock()
-    graph = aiocells.DependencyGraph()
+    graph = aiocells.DependencyGraph(name="demo_1")
 
     # Two completely unrelated sequences are added to the graph. They
     # run concurrently.
