@@ -4,7 +4,7 @@ import inspect
 import logging
 import random
 
-from .basic import TopologicalQueue
+import aiocells.basic as basic
 
 
 logger = logging.getLogger(__name__)
@@ -68,7 +68,7 @@ async def async_compute_concurrent_simple(graph):
     logger.debug("enter, graph.name=%s", graph.name)
 
     task_graph = graph.decorate(ensure_coroutine)
-    queue = TopologicalQueue(task_graph)
+    queue = basic.TopologicalQueue(task_graph)
     ready_tasks = create_tasks(queue.ready_set())
 
     while len(ready_tasks):
@@ -117,7 +117,7 @@ async def async_compute_concurrent(graph):
 
     logger.debug("enter, graph.name=%s", graph.name)
 
-    queue = TopologicalQueue(graph)
+    queue = basic.TopologicalQueue(graph)
     ready_set = queue.ready_set()
 
     logger.debug("ready_set: %s", ready_set)
@@ -164,12 +164,12 @@ async def cancel_tasks(tasks):
     logger.debug("enter")
 
     for task in tasks:
-        logger.debug("Cancelling task: %s, coro_name=%s",
-                     task, task.get_coro().__name__)
+        logger.debug("Cancelling task: %s", basic.task_name(task))
         task.cancel()
         try:
             await task
+            logger.debug("Task cancelled cleanly")
         except asyncio.CancelledError:
-            pass
+            logger.debug("Caught CancelledError for %s", basic.task_name(task))
 
     logger.debug("exit")
