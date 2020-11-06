@@ -289,13 +289,13 @@ def test_topological_sort_DAG():
 
 
 def test_empty_graph():
-    graph = basic.DependencyGraph({})
+    graph = basic.DependencyGraph(initial_dependencies={})
     assert graph.precedence_dict == {}
     assert graph.dependency_dict == {}
 
 
 def test_singleton_graph():
-    graph = basic.DependencyGraph({"A": set()})
+    graph = basic.DependencyGraph(initial_dependencies={"A": set()})
     assert graph.precedence_dict == {"A": set()}
     assert graph.dependency_dict == {"A": set()}
     assert graph.input_nodes == {"A"}
@@ -319,7 +319,8 @@ def test_add_same_node_twice():
 
 
 def test_one_edge_graph_1():
-    graph = basic.DependencyGraph({"A": {"B"}, "B": set()})
+    graph = basic.DependencyGraph(
+        initial_dependencies={"A": {"B"}, "B": set()})
     assert graph.precedence_dict == {"B": {"A"}, "A": set()}
     assert graph.dependency_dict == {"A": {"B"}, "B": set()}
     assert graph.input_nodes == {"B"}
@@ -335,7 +336,7 @@ def test_one_edge_graph_2():
 
 def test_underspecified_graph():
     # DependencyGraph will add empty dependency set for "B"
-    graph = basic.DependencyGraph({"A": {"B"}})
+    graph = basic.DependencyGraph(initial_dependencies={"A": {"B"}})
     assert graph.precedence_dict == {"B": {"A"}, "A": set()}
     assert graph.dependency_dict == {"A": {"B"}, "B": set()}
     assert graph.input_nodes == {"B"}
@@ -343,14 +344,15 @@ def test_underspecified_graph():
 
 def test_precedence_dict_three_edges():
     # DependencyGraph will add empty dependency set for "A"
-    graph = basic.DependencyGraph({"B": {"A"}, "C": {"A", "B"}})
+    graph = basic.DependencyGraph(
+        initial_dependencies={"B": {"A"}, "C": {"A", "B"}})
     assert graph.precedence_dict == {"A": {"B", "C"}, "B": {"C"}, "C": set()}
     assert graph.dependency_dict == {"A": set(), "B": {"A"}, "C": {"A", "B"}}
     assert graph.input_nodes == {"A"}
 
 
 def test_two_input_nodes():
-    graph = basic.DependencyGraph({"C": {"A", "B"}})
+    graph = basic.DependencyGraph(initial_dependencies={"C": {"A", "B"}})
     assert graph.input_nodes == {"A", "B"}
 
 
@@ -384,7 +386,7 @@ def undecorate(decorator):
 
 
 def test_decorate_empty():
-    graph = basic.DependencyGraph({})
+    graph = basic.DependencyGraph(initial_dependencies={})
     decorated_graph = graph.decorate(lambda node: Decorator(node))
     assert len(graph) == 0
 
@@ -392,7 +394,7 @@ def test_decorate_empty():
 def test_decorate_singleton():
     node_a = IdNode("A")
 
-    graph = basic.DependencyGraph({node_a: set()})
+    graph = basic.DependencyGraph(initial_dependencies={node_a: set()})
     decorated_graph = graph.decorate(lambda node: Decorator(node))
     assert len(decorated_graph) == 1
     assert len(decorated_graph.dependency_dict.keys()) == 1
@@ -404,7 +406,8 @@ def test_decorate_singleton():
 def test_decorated_two_node_graph():
     node_a = IdNode("A")
     node_b = IdNode("B")
-    graph = basic.DependencyGraph({node_a: set(), node_b: {node_a}})
+    graph = basic.DependencyGraph(
+        initial_dependencies={node_a: set(), node_b: {node_a}})
     decorated_graph = graph.decorate(lambda node: Decorator(node))
     undecorated_graph = decorated_graph.decorate(undecorate)
     assert undecorated_graph.dependency_dict == graph.dependency_dict
@@ -414,7 +417,8 @@ def test_decorated_three_node_graph():
     node_a = IdNode("A")
     node_b = IdNode("B")
     node_c = IdNode("C")
-    graph = basic.DependencyGraph({node_a: set(), node_b: {node_a, node_c}})
+    graph = basic.DependencyGraph(
+        initial_dependencies={node_a: set(), node_b: {node_a, node_c}})
     decorated_graph = graph.decorate(lambda node: Decorator(node))
     undecorated_graph = decorated_graph.decorate(undecorate)
     assert undecorated_graph.dependency_dict == graph.dependency_dict
@@ -426,7 +430,7 @@ def test_decorated_diamond():
     node_c = IdNode("C")
     node_d = IdNode("D")
     node_e = IdNode("E")
-    graph = basic.DependencyGraph({
+    graph = basic.DependencyGraph(initial_dependencies={
         node_b: {node_a},
         node_c: {node_a},
         node_d: {node_b, node_c, node_e}
@@ -441,24 +445,29 @@ def test_decorated_diamond():
 
 
 def test_topological_queue_empty():
-    queue = basic.TopologicalQueue(basic.DependencyGraph({}))
+    queue = basic.TopologicalQueue(basic.DependencyGraph(
+        initial_dependencies={}))
     assert queue.empty()
 
 
 def test_topological_queue_singleton():
-    queue = basic.TopologicalQueue(basic.DependencyGraph({"A": {}}))
+    queue = basic.TopologicalQueue(basic.DependencyGraph(
+        initial_dependencies={"A": {}}
+    ))
     assert not queue.empty()
     assert queue.ready_set() == {"A"}
 
 
 def test_topological_queue_cycle():
     with pytest.raises(basic.CircularDependency) as e:
-        queue = basic.TopologicalQueue(basic.DependencyGraph({"A": {"A"}}))
+        queue = basic.TopologicalQueue(basic.DependencyGraph(
+            initial_dependencies={"A": {"A"}}
+        ))
     assert str(e.value) == "Circular dependency detected in graph"
 
 
 def test_topological_queue_two_independent_nodes():
-    graph = basic.DependencyGraph({"A": {}, "B": {}})
+    graph = basic.DependencyGraph(initial_dependencies={"A": {}, "B": {}})
     queue = basic.TopologicalQueue(graph)
     assert not queue.empty()
     assert queue.ready_set() == {"A", "B"}
@@ -478,7 +487,8 @@ def test_topological_queue_bug():
 
 
 def test_topological_queue_two_dependent_nodes():
-    graph = basic.DependencyGraph({"A": set(), "B": {"A"}})
+    graph = basic.DependencyGraph(
+        initial_dependencies={"A": set(), "B": {"A"}})
     queue = basic.TopologicalQueue(graph)
     assert not queue.empty()
     assert len(queue) == 2
@@ -505,12 +515,14 @@ def test_topological_queue_two_dependent_nodes():
 
 
 def test_topological_queue_diamond():
-    queue = basic.TopologicalQueue(basic.DependencyGraph({
-        "A": {},
-        "B": {"A"},
-        "C": {"A"},
-        "D": {"B", "C"}
-    }))
+    queue = basic.TopologicalQueue(basic.DependencyGraph(
+        initial_dependencies={
+            "A": {},
+            "B": {"A"},
+            "C": {"A"},
+            "D": {"B", "C"}
+        }
+    ))
 
     assert not queue.empty()
     assert len(queue) == 4
