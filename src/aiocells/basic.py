@@ -460,3 +460,10 @@ def node_name(node):
 
 def node_names(sequence):
     return [node_name(node) for node in sequence]
+
+
+def task_name(task):
+    return f"{task}, coro_name={task.get_coro().__name__}"
+
+def task_names(sequence):
+    return [task_name(task) for task in sequence]

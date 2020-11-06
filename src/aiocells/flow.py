@@ -66,14 +66,14 @@ async def compute_flow(graph):
             for task in completed_input_tasks
         ]
         logger.debug("completed_input_functions: %s",
-                     completed_input_functions)
+                     basic.node_names(completed_input_functions))
         callables, new_tasks = aio.prepare_ready_set(
             completed_input_functions
         )
         assert len(callables) == 0, "Input nodes must be coroutines in " + \
             f"\"{graph.name}\": {basic.node_names(callables)}"
 
-        logger.debug("new_tasks: %s", new_tasks)
+        logger.debug("new_tasks: %s", basic.task_names(new_tasks))
         flow_state.input_tasks |= new_tasks
 
         logger.debug("Computing dependent nodes")
@@ -107,5 +107,5 @@ async def compute_flow(graph):
 async def cancel_flow(graph):
     if not hasattr(graph, "__flow_state"):
         raise Exception("Graph does not have __flow_state attribute")
-    logger.debug("cancelling task in %s", graph.name)
+    logger.debug("Cancelling tasks in %s", graph.name)
     await aio.cancel_tasks(graph.__flow_state.input_tasks)
