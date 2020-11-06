@@ -172,4 +172,4 @@ async def cancel_tasks(tasks):
         except asyncio.CancelledError:
             pass
 
-    logger.debug("exit, graph.name=%s", graph.name)
+    logger.debug("exit")
