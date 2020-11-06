@@ -457,5 +457,6 @@ def node_name(node):
         return f"{node}, name={node.__name__}"
     return str(node)
 
+
 def node_names(sequence):
     return [node_name(node) for node in sequence]
