@@ -64,7 +64,8 @@ async def compute_flow(graph):
             task.aio_coroutine_function
             for task in completed_input_tasks
         ]
-        logger.debug("completed_input_functions: %s", completed_input_functions)
+        logger.debug("completed_input_functions: %s",
+                     completed_input_functions)
         callables, new_tasks = aio.prepare_ready_set(
             completed_input_functions
         )
