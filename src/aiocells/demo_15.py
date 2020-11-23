@@ -16,7 +16,7 @@ def main():
     clock = aiocells.ModClock()
     graph = aiocells.DependencyGraph()
 
-    time = aiocells.ModVariable(clock)
+    time = aiocells.ModPlace(clock)
     timer = functools.partial(aiocells.timer, 1, time)
     printer = aiocells.ModPrinter(clock, time, "time changed to {value}")
 

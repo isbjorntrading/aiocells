@@ -16,7 +16,7 @@ def main():
 
     graph = aiocells.DependencyGraph()
 
-    time = aiocells.Variable()
+    time = aiocells.Place()
 
     # 'aio.timer' will put the current time in the 'time' variable when
     # one second has expired

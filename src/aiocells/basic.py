@@ -82,7 +82,7 @@ class Stopwatch:
         return True
 
 
-class Variable:
+class Place:
 
     def __init__(self, *, value=None, name=None):
         self.name = name
@@ -150,7 +150,7 @@ def assign(destination, function, *arguments):
     to a destination variable.
 
     Args:
-        - destination   - a node implementing the 'Variable' interface
+        - destination   - a node implementing the 'Place' interface
         - function      - a callable or a coroutine function
         - arguments     - nodes to supply the arguments to the function
 

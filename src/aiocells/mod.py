@@ -20,7 +20,7 @@ class ModClock:
         return self._now
 
 
-class ModVariable:
+class ModPlace:
 
     def __init__(self, clock):
         self._clock = clock

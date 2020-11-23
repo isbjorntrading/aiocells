@@ -31,7 +31,7 @@ def main():
 
     graph = aiocells.DependencyGraph()
 
-    time = aiocells.Variable()
+    time = aiocells.Place()
     timer = TimerObject(time)
 
     # Here, we bind the coroutine method with the object

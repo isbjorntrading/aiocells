@@ -20,7 +20,7 @@ async def async_main():
 
     graph = aiocells.DependencyGraph()
 
-    time = aiocells.Variable()
+    time = aiocells.Place()
     printer = graph.add_node(functools.partial(async_printer, time))
 
     graph.add_precedence(time, printer)

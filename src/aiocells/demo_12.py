@@ -14,8 +14,8 @@ def main():
 
     clock = aiocells.ModClock()
 
-    variable_1 = aiocells.ModVariable(clock)
-    variable_2 = aiocells.ModVariable(clock)
+    variable_1 = aiocells.ModPlace(clock)
+    variable_2 = aiocells.ModPlace(clock)
 
     printer_1 = aiocells.ModPrinter(clock, variable_1,
                                     "variable_1 changed to {value}")

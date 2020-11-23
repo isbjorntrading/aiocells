@@ -17,7 +17,7 @@ def test_virtual_clock():
 
 def test_mod_variable():
     clock = mod.ModClock()
-    variable = mod.ModVariable(clock)
+    variable = mod.ModPlace(clock)
 
     assert clock.current_value == 0
 
@@ -35,7 +35,7 @@ def test_mod_variable():
     assert variable.value == 42
     assert not variable.is_dirty
 
-    # Variable hasn't changed
+    # Place hasn't changed
     assert clock.current_value == 1
     variable()
     assert clock.current_value == 1
@@ -61,7 +61,7 @@ def test_mod_variable():
 def test_mod_adder_no_inputs():
     clock = mod.ModClock()
 
-    output_cell = mod.ModVariable(clock)
+    output_cell = mod.ModPlace(clock)
 
     adder = mod.ModAdder(clock, [], output_cell)
     adder()
@@ -76,8 +76,8 @@ def test_mod_adder_no_inputs():
 def test_mod_adder_one_input():
     clock = mod.ModClock()
 
-    input_cell = mod.ModVariable(clock)
-    output_cell = mod.ModVariable(clock)
+    input_cell = mod.ModPlace(clock)
+    output_cell = mod.ModPlace(clock)
     adder = mod.ModAdder(clock, [input_cell], output_cell)
 
     assert not input_cell.is_dirty
@@ -134,9 +134,9 @@ def test_mod_adder_one_input():
 def test_mod_adder_two_inputs():
     clock = mod.ModClock()
 
-    input_cell_1 = mod.ModVariable(clock)
-    input_cell_2 = mod.ModVariable(clock)
-    output_cell = mod.ModVariable(clock)
+    input_cell_1 = mod.ModPlace(clock)
+    input_cell_2 = mod.ModPlace(clock)
+    output_cell = mod.ModPlace(clock)
 
     input_cell_1.value = 1
     input_cell_2.value = 2
@@ -172,10 +172,10 @@ def test_mod_adder_two_inputs_with_graph():
     clock = mod.ModClock()
     graph = basic.DependencyGraph()
 
-    input_cell_1 = mod.ModVariable(clock)
-    input_cell_2 = mod.ModVariable(clock)
-    irrelevant_input = mod.ModVariable(clock)
-    output_cell = mod.ModVariable(clock)
+    input_cell_1 = mod.ModPlace(clock)
+    input_cell_2 = mod.ModPlace(clock)
+    irrelevant_input = mod.ModPlace(clock)
+    output_cell = mod.ModPlace(clock)
 
     adder = mod.ModAdder(clock, [input_cell_1, input_cell_2], output_cell)
 

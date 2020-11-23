@@ -7,7 +7,7 @@ import aiocells.flow as flow
 
 def test_basic():
     assert aiocells.DependencyGraph is basic.DependencyGraph
-    assert aiocells.Variable is basic.Variable
+    assert aiocells.Place is basic.Place
     assert aiocells.compute_sequential is basic.compute_sequential
     assert aiocells.Stopwatch is basic.Stopwatch
     assert aiocells.print_value is basic.print_value
@@ -24,7 +24,7 @@ def test_aio():
 
 def test_mod():
     assert aiocells.ModClock is mod.ModClock
-    assert aiocells.ModVariable is mod.ModVariable
+    assert aiocells.ModPlace is mod.ModPlace
     assert aiocells.ModPrinter is mod.ModPrinter
 
 

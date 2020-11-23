@@ -11,7 +11,7 @@ def subgraph(name, period):
     clock = aiocells.ModClock()
     graph = aiocells.DependencyGraph(name=name)
 
-    time = aiocells.ModVariable(clock)
+    time = aiocells.ModPlace(clock)
     printer = aiocells.ModPrinter(
         clock, time, f"time in \"{name}\" changed to {{value}}"
     )

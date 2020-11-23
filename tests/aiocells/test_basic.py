@@ -81,19 +81,19 @@ def test_stopwatch_lap_time():
 
 
 # =============================================================================
-# Test Variable
+# Test Place
 
 
 def test_cell_setter_and_getter():
 
-    cell_1 = basic.Variable(name="test_cell_1")
+    cell_1 = basic.Place(name="test_cell_1")
     assert cell_1.name == "test_cell_1"
     assert cell_1.value is None
 
     cell_1.value = 7
     assert cell_1.value == 7
 
-    cell_2 = basic.Variable(name="test_cell_2", value=1)
+    cell_2 = basic.Place(name="test_cell_2", value=1)
     assert cell_2.name == "test_cell_2"
     assert cell_2.value == 1
 
@@ -106,18 +106,18 @@ def test_cell_setter_and_getter():
 
 # Here, the arguments passed to the 'add' operator are literal values
 def test_assignment_literal_args():
-    output = basic.Variable()
+    output = basic.Place()
 
     assignment = basic.assign(output, operator.add, 1, 2)
     assignment()
     assert output.value == 3
 
 
-# Here, the arguments passed to the 'add' operator are basic.Variable
+# Here, the arguments passed to the 'add' operator are basic.Place
 def test_assignment_variable_args():
-    input_1 = basic.Variable(value=1)
-    input_2 = basic.Variable(value=2)
-    output = basic.Variable()
+    input_1 = basic.Place(value=1)
+    input_2 = basic.Place(value=2)
+    output = basic.Place()
 
     assignment = basic.assign(output, operator.add, input_1, input_2)
     assignment()
@@ -129,13 +129,13 @@ def test_assignment_variable_args():
 
 
 # Here, the argument pass to to the 'sum' function is a list of
-# basic.Variable. The values of these variables are gotten every time
+# basic.Place. The values of these variables are gotten every time
 # the assignment is invoked.
 def test_assignment_list_arg():
-    input_1 = basic.Variable(value=1)
-    input_2 = basic.Variable(value=2)
-    input_3 = basic.Variable(value=3)
-    output = basic.Variable()
+    input_1 = basic.Place(value=1)
+    input_2 = basic.Place(value=2)
+    input_3 = basic.Place(value=3)
+    output = basic.Place()
 
     assignment = basic.assign(output, sum, [input_1, input_2, input_3])
     assignment()
@@ -148,10 +148,10 @@ def test_assignment_list_arg():
 
 # Same as previous except a tuple is used rather than a list
 def test_assignment_tuple_arg():
-    input_1 = basic.Variable(value=1)
-    input_2 = basic.Variable(value=2)
-    input_3 = basic.Variable(value=3)
-    output = basic.Variable()
+    input_1 = basic.Place(value=1)
+    input_2 = basic.Place(value=2)
+    input_3 = basic.Place(value=3)
+    output = basic.Place()
 
     assignment = basic.assign(output, sum, (input_1, input_2, input_3))
     assignment()
@@ -166,7 +166,7 @@ def test_assignment_str_literal_arg():
     # This caused an infinite recursion because the test in the library
     # is for 'Sequence' when it should be for 'list'
     input_1 = "hello"
-    output = basic.Variable()
+    output = basic.Place()
 
     assignment = basic.assign(output, len, input_1)
     assignment()
@@ -174,9 +174,9 @@ def test_assignment_str_literal_arg():
 
 
 def test_assignment_mixed_args():
-    input_1 = basic.Variable(value=1)
-    input_2 = basic.Variable(value=2)
-    output = basic.Variable()
+    input_1 = basic.Place(value=1)
+    input_2 = basic.Place(value=2)
+    output = basic.Place()
 
     # Here, we test all three types of args, a list, variables and
     # literals
@@ -194,10 +194,10 @@ async def async_sum(args):
 
 
 def test_assignment_coroutine_function():
-    input_1 = basic.Variable(value=1)
-    input_2 = basic.Variable(value=2)
-    input_3 = basic.Variable(value=3)
-    output = basic.Variable()
+    input_1 = basic.Place(value=1)
+    input_2 = basic.Place(value=2)
+    input_3 = basic.Place(value=3)
+    output = basic.Place()
 
     assignment = basic.assign(output, async_sum, [input_1, input_2, input_3])
     assert inspect.iscoroutinefunction(assignment)
@@ -573,8 +573,8 @@ def test_null_execution():
 
 def test_single_dependency():
 
-    input_cell = basic.Variable(name="input_cell", value=99)
-    output_cell = basic.Variable(name="output_cell")
+    input_cell = basic.Place(name="input_cell", value=99)
+    output_cell = basic.Place(name="output_cell")
     add = basic.assign(output_cell, sum, [input_cell])
 
     graph = basic.DependencyGraph()
@@ -597,8 +597,8 @@ def test_add_precedence():
 
     # add_precedence(A, B) is a synonym for add_dependency(B, A)
 
-    input_cell = basic.Variable(name="input_cell", value=99)
-    output_cell = basic.Variable(name="output_cell")
+    input_cell = basic.Place(name="input_cell", value=99)
+    output_cell = basic.Place(name="output_cell")
     add = basic.assign(output_cell, sum, [input_cell])
 
     graph = basic.DependencyGraph()
@@ -633,11 +633,11 @@ class CellWrapper:
 
 def test_two_dependencies():
 
-    input_cell_1 = basic.Variable(name="input_cell_1", value=1)
-    input_cell_2 = basic.Variable(name="input_cell_2", value=2)
-    child_cell_1 = basic.Variable(name="child_cell_1")
-    child_cell_2 = basic.Variable(name="child_cell_2")
-    output_cell = basic.Variable(name="output_cell")
+    input_cell_1 = basic.Place(name="input_cell_1", value=1)
+    input_cell_2 = basic.Place(name="input_cell_2", value=2)
+    child_cell_1 = basic.Place(name="child_cell_1")
+    child_cell_2 = basic.Place(name="child_cell_2")
+    output_cell = basic.Place(name="output_cell")
 
     add_1 = basic.assign(child_cell_1, sum, [input_cell_1, input_cell_2])
     add_2 = basic.assign(child_cell_2, sum, [input_cell_1, input_cell_2])
@@ -717,7 +717,7 @@ def test_two_dependencies():
 def test_singleton_cell():
     graph = basic.DependencyGraph()
 
-    singleton = basic.Variable(name="singleton", value=1)
+    singleton = basic.Place(name="singleton", value=1)
 
     computed_cells = []
     singleton_wrapper = CellWrapper(singleton, computed_cells)
