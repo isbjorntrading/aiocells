@@ -49,7 +49,10 @@ async def compute_flow(graph):
             return len(flow_state.input_tasks)
 
         # Wait for at least one input node to complete
-        logger.debug("Waiting for input tasks")
+        logger.debug(
+            "Waiting for input tasks, input_tasks=%s",
+            basic.task_names(flow_state.input_tasks)
+        )
         completed_input_tasks, flow_state.input_tasks = await asyncio.wait(
             flow_state.input_tasks,
             return_when=asyncio.FIRST_COMPLETED

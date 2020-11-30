@@ -7,7 +7,7 @@ README = (THIS_DIR / "README.md").read_text()
 
 setup(
     name="aiocells",
-    version="1.0.0",
+    version="1.0.1",
     python_requires=">=3.8",
     description="A package for synchronous and asynchronous"
                 " dependency graph computation",
