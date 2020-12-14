@@ -98,8 +98,9 @@ async def compute_flow(graph):
         logger.debug("Caught asyncio.CancelledError in %s", graph.name)
         # Don't reraise - this is an expected error when cancelling the
         # flow with `cancel_flow`
-    except Exception:
+    except Exception as e:
         await aio.cancel_tasks(flow_state.input_tasks)
+        logger.debug("Caught exception %s in %s", e, graph.name)
         # Reraise - this is an unexpected exception
         raise
     finally:

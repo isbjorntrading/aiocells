@@ -163,13 +163,22 @@ async def timer(seconds, result_variable):
 async def cancel_tasks(tasks):
     logger.debug("enter")
 
+    exceptions = []
     for task in tasks:
         logger.debug("Cancelling task: %s", basic.task_name(task))
+        if task.exception():
+            exceptions.append(task.exception())
         task.cancel()
         try:
             await task
             logger.debug("Task cancelled cleanly")
         except asyncio.CancelledError:
             logger.debug("Caught CancelledError for %s", basic.task_name(task))
+
+    if exceptions:
+        if len(exceptions) == 1:
+            raise exceptions[0]
+        else:
+            raise Exception("Multiple exception raised")
 
     logger.debug("exit")
